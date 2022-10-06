@@ -1,0 +1,286 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+
+{% block extra_stylesheet %}
+<style>
+.menu-bar h5{
+    letter-spacing: 1px;
+    word-spacing: 2px;
+    font-size: 0.8rem;
+    
+}
+.active1{
+    font-weight: 600;
+    text-decoration: underline;
+}
+.menu-bar{
+    background-color: rgb(255, 255, 255);
+    padding: 30px 20px;
+    margin: 20px 0px;
+    border: 0.5px solid rgb(230, 230, 230);
+    height: -webkit-fill-available;
+}
+.collapse-row{
+    padding: 0px !important;
+}
+.collapse-row h5{
+    letter-spacing: 1px;
+    word-spacing: 2px;
+    font-size: 0.8rem;
+}
+.check{
+  color: #17ee17;
+font-weight: bold;   
+}
+.cross{
+     color: red;
+font-weight: bold;
+}
+.wait{
+   color: #ffc000;;
+font-weight: bold;
+}
+</style>
+{% endblock extra_stylesheet %}
+
+
+
+{% block content %}
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0 font-size-18">Blog Categories Form</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Blogs</a></li>
+                                <li class="breadcrumb-item active">Blog Categories Form</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Booking Id</th>
+                                    <th>Name</th>
+                                    <th>Phone No.</th>
+                                    <th>Final Fare</th>
+                                    <th>Advance</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>2</td>
+                                    <td>456813</td>
+                                    <td>Abhinav</td>
+                                    <td>9876543210</td>
+                                    <td>987.00</td>
+                                    <td>600</td>
+                                    <td>
+                                        <button type="button" style="padding-right: 10px;margin-right: 10px;" class="btn btn-warning waves-effect waves-light mb-2">
+                                            <i class="bx bx-add-to-queue font-size-16 align-middle"></i>Proceed
+                                        </button>
+                                        <button type="button" style="padding-right: 10px;margin-right: 10px;" class="btn btn-warning waves-effect waves-light mb-2" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                            <i class="bx bx-add-to-queue font-size-16 align-middle"></i>Details
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" class="collapse-row">
+                                        <div class="collapse" id="collapseExample">
+                                            <div class="card">
+                                                <div class="card-body row">
+                                                    <div class="col-4 labels">
+                                                        <h5>Pickup Date Time</h5>
+                                                        <h5>Booking Date Time</h5>
+                                                        <h5>Distance</h5>
+                                                        <h5>Duration</h5>
+                                                        <h5>Pickup</h5>
+                                                        <h5>Drop</h5>
+                                                        <h5>Ride Type</h5>
+                                                        <h5>Car Type</h5>
+                                                        <h5>Pickup City</h5>
+                                                        <h5>Drop City</h5>
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <h5>25/06/2020 9:00 A.M.</h5>
+                                                        <h5>25/06/2020 8:00 A.M.</h5>
+                                                        <h5>90 KM</h5>
+                                                        <h5>2 hr</h5>
+                                                        <h5>delhi</h5>
+                                                        <h5>Faridabad</h5>
+                                                        <h5>One Way</h5>
+                                                        <h5>Sedan</h5>
+                                                        <h5>Delhi</h5>
+                                                        <h5>Faridabad</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                          </div>
+                                    </td>
+                                    
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <div class="col-12 menu-bar">
+                        <a href=""><h5 class="active1">Select Vendors</h5></a>
+                        <a href=""><h5>Final Vendors</h5></a>
+                        <a href=""><h5>Assign Car</h5></a>
+                        <a href=""><h5>Assign Driver</h5></a>
+                        <a href=""><h5>Final Action</h5></a>
+                        <a href=""><h5>Ride Completion</h5></a>
+                    </div>
+                    
+                </div>
+                <div class="col-10">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th></th>
+                                    <th>Vendor Id</th>
+                                    <th>Name</th>
+                                    <th>Previous ride</th>
+                                    <th>Bid Amount</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>2</td>
+                                    <td><input type="checkbox"></td>
+                                    <td>456813</td>
+                                    <td>Abhay</td>
+                                    <td>32</td>
+                                    <td>850</td>
+                                    <td class="cross">&#10008 Not Selected</td>
+                                    <td>
+                                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1">
+                                              Details
+                                            </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="8" class="collapse-row">
+                                        <div class="collapse" id="collapseExample1">
+                                            <div class="card">
+                                                <div class="card-body row">
+                                                    <div class="col-3">
+                                                        <h5>Name</h5>
+                                                        <h5>Aadhar Id</h5>
+                                                        <h5>Rating</h5>
+                                                        <h5>Address</h5>
+                                                        <h5>Review</h5>
+                                                    </div>
+                                                    <div class="col-9">
+                                                        <h5>Abhay</h5>
+                                                        <h5>5454321321</h5>
+                                                        <h5>4.5</h5>
+                                                        <h5>Delhi</h5>
+                                                        <h5>Good</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                          </div>
+                                    </td>
+                                    
+                                </tr>
+                              
+                                <tr>
+                                    <td>2</td>
+                                    <td><input type="checkbox"></td>
+                                    <td>456813</td>
+                                    <td>Abhay</td>
+                                    <td>32</td>
+                                    <td>850</td>
+                                    <td class="check">&#10004 Selected</td>
+                                    <td>
+                                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
+                                              Details
+                                            </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="8" class="collapse-row">
+                                        <div class="collapse" id="collapseExample2">
+                                            <div class="card">
+                                                <div class="card-body row">
+                                                    <div class="col-3">
+                                                        <h5>Name</h5>
+                                                        <h5>Aadhar Id</h5>
+                                                        <h5>Rating</h5>
+                                                        <h5>Address</h5>
+                                                        <h5>Review</h5>
+                                                    </div>
+                                                    <div class="col-9">
+                                                        <h5>Abhay</h5>
+                                                        <h5>5454321321</h5>
+                                                        <h5>4.5</h5>
+                                                        <h5>Delhi</h5>
+                                                        <h5>Good</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                          </div>
+                                    </td>
+                                    
+                                </tr>
+                                
+                                </tbody>
+                            </table>
+                            <button type="button" style="padding-right: 10px;margin-right: 10px;" class="btn btn-block btn-warning waves-effect waves-light mb-2">
+                                <i class="bx bx-add-to-queue font-size-16 align-middle"></i>Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+
+            <!-- end row -->
+
+        </div> <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+
+
+</div>
+
+{% endblock content %}
+
+
+
+
+{% block extra_scripts %}
+
+{% endblock extra_scripts %}

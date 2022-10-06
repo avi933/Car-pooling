@@ -1,0 +1,810 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block extra_stylesheet %}
+<link href="{% static 'css/owl.carousel.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.1/dist/leaflet.css"
+integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+crossorigin=""/>
+<!-- //just added// -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<!-- /// -->
+<script src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js"
+integrity="sha256-NDI0K41gVbWqfkkaHj15IzU7PtMoelkzyKp8TOaFQ3s="
+crossorigin=""></script>
+<!-- <link rel="stylesheet" href="./css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/bootstrap-theme.min.css"> -->
+<style type="text/css">
+   #map { height: 500px; width:550px;}
+
+   .timeWithText:before{
+   font-weight: bolder;
+   color: #1c2b39;
+   content: "Date and Time";
+   }
+   .tj-form2-tabs .nav-tabs > li.active > a, .tj-form2-tabs .nav-tabs > li.active > a:hover, .tj-form2-tabs .nav-tabs > li.active > a:focus{
+   background-color:#ffc000;
+   height: 69px;
+   font-size: 18px;
+   bottom: 0px;
+   }
+   .airport-section .tj-form2-tabs .nav-tabs > li.active > a,.airport-section .tj-form2-tabs .nav-tabs > li.active > a:hover,.airport-section .tj-form2-tabs .nav-tabs > li.active > a:focus{
+   background-color:#ffc000;
+   padding: 12px;
+   height: 47px;
+   font-size: 18px;
+   bottom: 5px;
+   }
+   .tj-destinations{
+   float: left;
+   width: 100%;
+   padding: 0;
+   }
+
+   @media(max-width:767px){
+   .airport-section{
+   margin-top: 20px !important;
+   }
+   .res-padding{
+   padding-left: 0px;
+   padding-right: 0px;
+   }
+   .airport-btn{
+   margin-top: 0px !important;
+   padding-left: 0px;
+   }
+   .remove-padding-left{
+   padding-right: 0px;
+   padding-left: 0px;
+   margin-bottom: 13px;
+   margin-top: 12px;
+   }
+   .airport-date-col{
+   margin-top: 25px;
+   padding-right: 0px;
+   padding-left: 0px;
+   }
+   }
+   .airport-section{
+   margin-top: 48px;
+   }
+   .remove-padding-left{
+   padding-left: 0px;
+   }
+   .airport-date-col{
+   margin-top: 35px;
+   padding-right: 0px;
+   }
+   .airport-btn{
+   margin-top: 32px;
+   padding-right: 0px;
+   }
+   /*CSS for Expandible Testimonials*/
+   .morecontent span {
+   display: none;
+   }
+   .morelink {
+   display: block;
+   }
+   .tj-reviews .reviews-slider .review-item{
+   min-height: 341px;
+   }
+   .tj-reviews .owl-item{
+   margin-bottom: 10px;
+   }
+   /*Destination carousel css*/
+   strong h3{
+   font-weight: bolder;
+   color: black;
+   }
+   .txt-right{
+   display: inline;
+   float: right;
+   margin: 0;
+   }
+   .carousel-btn{
+   background-color: #ffc000;
+   padding: 2px 7px;
+   display: inline;
+   float: right;
+   }
+   .txt-left{
+   display:inline;
+   float:left;
+   margin: 0;
+   }
+   .carousel_article{
+   position: relative;
+   margin-top: 94%;
+   width: 100%;
+   color:#fff;
+   padding: 3%;
+   background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.09) 0%, rgba(0, 0, 0, .9) 100%);
+   }
+  
+   #owl-one .owl-carousel .owl-controls .owl-nav .owl-prev{
+   left: -2%;
+   position: absolute !important;
+   top: 39% !important;
+   background-color: white !important;
+   color: black !important;
+   }
+   #owl-one .owl-carousel .owl-controls .owl-nav .owl-next{
+   right: -2%;
+   position: absolute !important;
+   top: 39% !important;
+   background-color: white !important;
+   color: black !important;
+   }
+   /*css for select dropdown */
+   .bootstrap-select>.dropdown-toggle{
+   width: 100%;
+   padding: 10px 13px;
+   font-size: 14px;
+   line-height: 24px;
+   color: #a6a6a6;
+   border: 1px solid #e8e8e8;
+   display: block;
+   margin-bottom: 0px;
+   border-radius: 4px;
+   }
+   .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn){
+   width: 100% !important;
+   }
+   /*CSS for image bellow Testimonial*/
+   .aligntest h3:after{
+   margin-top: 0px !important;
+   margin: 10px !important;
+   }
+</style>
+{% endblock extra_stylesheet %}
+{% block content %}
+<!--Slider Section Start-->
+<div class="tj-slider">
+   <div class="tj-cab-slider" id="cab-slider" >
+      {% for banner in banners %}
+      <!--Slider Item Content Start-->
+      <div class="slide-item">
+         <img class="set-image" src="{{ banner.image.url }}" alt="" >
+         <div class="slide-caption">
+            <div class="container">
+               <div class="slide-inner">
+                  <h2>{{ banner.h5|linebreaks|escape }}</h2>
+                  <!-- <h2>{{ banner.h2|linebreaks|escape }}</h2> -->
+               </div>
+            </div>
+         </div>
+      </div>
+      <!--Slider Item Content End-->
+      {% endfor %}
+   </div>
+</div>
+
+
+<!--Slider Section End-->
+
+<!--Booking Services Section Start-->
+<section class="tj-book-services" >
+   <div class="container">
+         <div class="row">
+            <!--Booking Services Heading Start-->
+            <div class="col-md-12 col-sm-12">
+               <div class="tj-heading-style">
+                  <h3>Get Booking in Easy Steps</h3>
+                  <p>We are here to make your road trip booking hassle free with three easy clicks i.e. fill details, confirm itinerary and make payment.</p>
+               </div>
+            </div>
+         </div>  
+
+
+         
+         <div class ="row">
+            <div id = "map" class="col-lg-8 col-md-6 col-sm-12"></div>
+               
+            <div class="col-lg-4 col-md-6 col-sm-12" style="text-align:center; justify-items: center; margin-top: 50px;">  
+                     
+               <form>
+                     <div class="form-group">
+                     <input type="text" class="form-control"  placeholder="Pick Up from" id="pick_up" name="pick_up" ><br>
+                     <button onclick="toset='pick_up'" type="button" class="btn btn-primary">Set pick Up</button>
+                     </div>
+                     <div class="form-group">
+                     <input type="text" class="form-control" placeholder="Drop To" id="drop_off" name="drop_off"><br>
+                     <button onclick="toset='drop_off'" type="button" class="btn btn-primary">Set drop Off</button><br>
+                     </div>
+
+                        <div class="form-group">
+                           <label for="Distance">Distance: (in Kms) </label>
+                           <input type="text" class="form-control" id="distance" name="distance">
+                        </div><br>
+
+                        <div class="form-group">
+                           <label for="Price">Price: (in Rs) </label>
+                           <input type="text" class="form-control" id="price" name="price">
+                        </div>
+
+                        <div class="form-group">
+                           <button  type="button" class="btn btn-primary">Book Now</button>
+                        </div>
+
+                  
+                </form>
+               
+                  <!-- <input type="text"  placeholder="Pick Up from" id="pick_up" name="pick_up">
+                     <button onclick="toset='pick_up'">set pick up</button><br><br> -->
+
+                     
+                     <!-- <input type="text"  placeholder="Drop To" id="drop_off" name="drop_off">
+                     <button onclick="toset='drop_off'">set drop off</button> <br><br>  -->
+
+                     <!-- <label for="Distance">Distance in km</label>
+                     <input type="text" id="distance" name="distance"> <br><br>
+
+                     <label for="price">Estimated Price:</label>
+                     <input type="text" id="price" name="price"> <br><br> -->
+
+               </div>
+            </div> <br><br>
+          
+           
+
+         
+         <div class="cab-services" style="padding: 0px;">
+            <div class="container">
+               <div class="row">
+                  <!--Cab Services Outer Start-->
+                  <div class="col-md-4 col-sm-4">
+                     <div class="cab-service-box">
+                        <!--Cab Services Thumb Start-->
+                        <figure class="service-thumb service-box">
+                           <div class="icon-outer">
+                              <!-- <span>01</span> -->
+                              <i class="far fa-edit"></i>
+                           </div>
+                           
+                        </figure>
+                        <!--Cab Services Thumb End-->
+                        <!--Cab Services Info Start-->
+                        <div class="service-desc" >
+                           <h4>Make Reservation</h4>
+                           <p>Fill in your requirement to reserve your cab for outbound or inbound journey</p>
+                        </div>
+                        <!--Cab Services Info End-->
+                     </div>
+                  </div>
+                  <!--Cab Services Outer End-->
+                  <!--Cab Services Outer Start-->
+                  <div class="col-md-4 col-sm-4">
+                     <div class="cab-service-box">
+                        <!--Cab Services Thumb Start-->
+                        <figure class="service-thumb service-box">
+                           <div class="icon-outer">
+                              <!-- <span>01</span> -->
+                              <i class="fas fa-taxi"></i>
+                           </div>
+                           <!-- <img src="{% static 'images/icons/Best-Price-Guranteed.png' %}" alt=""> -->
+                        </figure>
+                        <!--Cab Services Thumb End-->
+                        <!--Cab Services Info Start-->
+                        <div class="service-desc" >
+                           <h4>Vehicle Confirmation</h4>
+                           <p>Confirmed vehicle provided as per itinerary for your luxury </p>
+                        </div>
+                        <!--Cab Services Info End-->
+                     </div>
+                  </div>
+                  <!--Cab Services Outer End-->
+                  <!--Cab Services Outer Start-->
+                  <div class="col-md-4 col-sm-4" >
+                     <div class="cab-service-box">
+                        <!--Cab Services Thumb Start-->
+                        <figure class="service-thumb service-box">
+                           <div class="icon-outer">
+                              <!-- <span>01</span> -->
+                              <i class="far fa-thumbs-up"></i>
+                           </div>
+                           <!-- <img src="{% static 'images/icons/Best-Price-Guranteed.png' %}" alt=""> -->
+                        </figure>
+                        <!--Cab Services Thumb End-->
+                        <!--Cab Services Info Start-->
+                        <div class="service-desc" >
+                           <h4>Enjoy your Trips</h4>
+                           <p>Comfortable vehicle of your choice to enjoy memorable journey</p>
+                        </div>
+                        <!--Cab Services Info End-->
+                     </div>
+                  </div>
+                  <!--Cab Services Outer End-->
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+<section class="cab-services">
+   <div class="container">
+      <div class="row">
+         <!--Cab Services Outer Start-->
+         <div class="col-md-4 col-sm-4">
+            <div class="cab-service-box">
+               <!--Cab Services Thumb Start-->
+               <figure class="service-thumb ">
+                  <img src="{% static 'images/icons/Best-Price-Guranteed.png' %}" alt="">
+               </figure>
+               <!--Cab Services Thumb End-->
+               <!--Cab Services Info Start-->
+               <div class="service-desc" >
+                  <h4>Best Price Guaranteed</h4>
+                  <p>Assure to give best price for services we offer.</p>
+               </div>
+               <!--Cab Services Info End-->
+            </div>
+         </div>
+         <!--Cab Services Outer End-->
+         <!--Cab Services Outer Start-->
+         <div class="col-md-4 col-sm-4">
+            <div class="cab-service-box">
+               <!--Cab Services Thumb Start-->
+               <figure class="service-thumb">
+                  <img src="{% static 'images/icons/customer-care.png' %}" alt="">
+               </figure>
+               <!--Cab Services Thumb End-->
+               <!--Cab Services Info Start-->
+               <div class="service-desc">
+                  <h4>24/7 Customer Care</h4>
+                  <p>Round the clock assistance to ensure hassle free service.</p>
+               </div>
+               <!--Cab Services Info End-->
+            </div>
+         </div>
+         <!--Cab Services Outer End-->
+         <!--Cab Services Outer Start-->
+         <div class="col-md-4 col-sm-4">
+            <div class="cab-service-box">
+               <!--Cab Services Thumb Start-->
+               <figure class="service-thumb">
+                  <img src="{% static 'images/icons/home-pickups.png' %}" alt="">
+               </figure>
+               <!--Cab Services Thumb End-->
+               <!--Cab Services Info Start-->
+               <div class="service-desc">
+                  <h4>Home Pickups</h4>
+                  <p>Home pick up services, no need to walk out for taxi.</p>
+               </div>
+               <!--Cab Services Info End-->
+            </div>
+         </div>
+         <!--Cab Services Outer End-->
+         <!--Cab Services Outer Start-->
+         <div class="col-md-4 col-sm-4">
+            <div class="cab-service-box">
+               <!--Cab Services Thumb Start-->
+               <figure class="service-thumb">
+                  <img src="{% static 'images/icons/instant-booking.png' %}" alt="">
+               </figure>
+               <!--Cab Services Thumb End-->
+               <!--Cab Services Info Start-->
+               <div class="service-desc">
+                  <h4>Instant Booking</h4>
+                  <p>Provides instant booking to plan outstation travel anytime.</p>
+               </div>
+               <!--Cab Services Info End-->
+            </div>
+         </div>
+         <!--Cab Services Outer End-->
+         <!--Cab Services Outer Start-->
+         <div class="col-md-4 col-sm-4">
+            <div class="cab-service-box">
+               <!--Cab Services Thumb Start-->
+               <figure class="service-thumb">
+                  <img src="{% static 'images/icons/easy-cancelation.png' %}" alt="">
+               </figure>
+               <!--Cab Services Thumb End-->
+               <!--Cab Services Info Start-->
+               <div class="service-desc">
+                  <h4>Easy Cancellation</h4>
+                  <p>Convenient cancellation in case change in plan.</p>
+               </div>
+               <!--Cab Services Info End-->
+            </div>
+         </div>
+         <!--Cab Services Outer End-->
+      </div>
+   </div>
+</section>
+{% endblock content %}
+{% block footer %}
+<!--Footer Content Start-->
+<section class="tj-footer">
+   <div class="container" style="height:20px ;" >
+      <div class="row">
+         <div class="col-md-6">
+            <div class="about-widget widget">
+               <h3>About TaxoTaxi</h3>
+               <p>A company who is healping a person either resident or tourist to book a trip and make sure they have a car on the book date</p>
+               <ul class="fsocial-links">
+                  <li><a href="http://www.facebook.com"><i class="fab fa-facebook-f"></i></a></li>
+                  <li><a href="http://www.twitter.com"><i class="fab fa-twitter"></i></a></li>
+                  <li><a href="http://www.linkedin.com"><i class="fab fa-linkedin-in"></i></a></li>
+                  <li><a href="http://www.instagram.com"><i class="fab fa-instagram"></i></a></li>
+               </ul>
+            </div>
+         </div>
+         <div class="col-md-3">
+            <div class="links-widget widget">
+               <h3>Explore Links</h3>
+               <ul class="flinks-list">
+                  
+                  <li><i class="far fa-folder"></i><a href="">About Us</a></li>
+                  <li><i class="far fa-folder"></i><a href="{% url 'blog:home' %}">Blog</a></li>
+                  <li><i class="far fa-folder"></i><a href="{% url 'core:faq' %}">F.A.Q.</a></li>
+                  <li><i class="far fa-folder"></i><a href="{% url 'core:contact' %}">Contact-Us</a></li>
+                  <li><i class="far fa-folder"></i><a href="{% url 'core:terms&conditions' %}"> Terms & conditions</a></li>
+                  
+               </ul>
+            </div>
+         </div>
+         <div class="col-md-3">
+            <div class="contact-info widget">
+               <h3>Contact Info</h3>
+               <ul class="contact-box">
+                  <li>
+                     <i class="fas fa-home" aria-hidden="true"></i> Roches - Noires , Mauritius
+                  </li>
+                  <li>
+                     <i class="far fa-envelope-open"></i>
+                     <a href="avithebest@hotmail.com">
+                     avithebest@hotmail.com</a>
+                  </li>
+                  <li>
+                     <i class="icon-phone icomoon"></i>
+                     <a href="tel:58269495">+230 8269495</a>
+                  </li>
+                  <li>
+                     <i class="fas fa-globe-asia"></i>
+                     <a href="/">Home</a>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<!--Footer Content End-->
+<!--Footer Copyright Start-->
+<section class="tj-copyright">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-4 col-sm-4">
+            <p>&copy; Copyrights 2022 <a href="/">Avi-taxi</a>. All Rights Reserved.</p>
+         </div>
+         <div class="col-md-4 col-sm-4" >
+            <p style="float: right;">&#9413; Powered By <a href="#">Avi Pvt Ltd</a>. </p>
+         </div>
+         <div class="col-md-4 col-sm-4" >
+            <p style="float: right;"> Developed By <a href="#">Team Tire - plan</a>. </p>
+         </div>
+      </div>
+   </div>
+</section>
+<!--Footer Copyright End-->
+{% endblock footer %}
+{% block extra_scripts %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script>
+   var final_place = 'Sector 10';  
+</script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+<script>
+   $('.owl-carousel').owlCarousel({
+     autoplay: true,
+     center: false,
+     loop: true,
+     nav: true,
+     margin:4,
+      responsive:{
+   0:{
+   items:1,
+   nav:true
+   },
+   600:{
+   items:3,
+   nav:false
+   },
+   1000:{
+   items:4,
+   nav:true,
+   loop:true
+   }
+   }
+   
+   });
+   $('#testimonial-slider').owlCarousel({
+     autoplay: false,
+     center: true,
+     loop: true,
+     nav: false,
+     margin:4,
+   
+     items: 5,
+     responsive:{
+   0:{
+   item:1
+   },
+   600:{
+   item:3
+   },
+   1000:{
+    item:5,
+   nav:true,
+   loop:true
+   }
+   }
+   
+   });
+   
+     $( ".owl-prev").html('<i class="fa fa-chevron-left"></i>')
+     $( ".owl-next").html('<i class="fa fa-chevron-right"></i>')
+   
+   // ------Date time Picker JS file-----------
+      var defaults = {
+       calendarWeeks: true,
+       showClear: true,
+       showClose: true,
+       allowInputToggle: true,
+       useCurrent: true,
+       ignoreReadonly: true,
+       minDate: min_date(),
+       toolbarPlacement: 'top',
+       sideBySide: true,
+       maxDate:max_date(),
+   
+       icons: {
+           time: 'fa fa-clock-o',
+           date: 'fa fa-calendar',
+           up: 'fa fa-angle-up',
+           down: 'fa fa-angle-down',
+           previous: 'fa fa-angle-left',
+           next: 'fa fa-angle-right',
+           today: 'fa fa-dot-circle-o',
+           clear: 'timeWithText',
+           close: 'fa fa-times'
+       }
+   };
+   
+   
+   $(function() {
+       var optionsDatetime = $.extend({}, defaults, {format:'DD-MM-YYYY HH:mm'});
+       // var optionsDate = $.extend({}, defaults, {format:'DD-MM-YYYY'});
+       // var optionsTime = $.extend({}, defaults, {format:'HH:mm'});
+       
+       // $('.datepicker').datetimepicker(optionsDate);
+       // $('.timepicker').datetimepicker(optionsTime);
+       $('.datetimepicker').datetimepicker(optionsDatetime);
+   });
+    
+   
+   function min_date() { 
+      var a = new Date();  
+      a.setTime(a.getTime() + 
+            (4 * 60 * 60 * 1000)); 
+      return a; 
+        } 
+   function max_date() { 
+      var expireDate = new Date();
+    
+      expireDate.setMonth(expireDate.getMonth() + 6)
+      
+      return expireDate;}      
+   
+   
+     ////////// Code for expandable testimonials//////////
+     $(document).ready(function() {
+          // Configure/customize these variables.
+          var showChar = 100;  // How many characters are shown by default
+          var ellipsestext = "...";
+          var moretext = "Show more >";
+          var lesstext = "Show less";
+   
+          $('.more').each(function() {
+              var content = $(this).html();
+   
+              if(content.length > showChar) {
+   
+                  var c = content.substr(0, showChar);
+                  var h = content.substr(showChar, content.length - showChar);
+   
+                  var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+   
+                   $(this).html(html);
+               }
+   
+           });
+   
+           $(".morelink").click(function(){
+               if($(this).hasClass("less")) {
+                   $(this).removeClass("less");
+                   $(this).html(moretext);
+               } else {
+                   $(this).addClass("less");
+                   $(this).html(lesstext);
+               }
+               $(this).parent().prev().toggle();
+               $(this).prev().toggle();
+               return false;
+           });
+      });
+     
+</script>
+
+<script>
+
+   var toset = "pick_up"
+   
+   var url = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
+   var attr = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+     osm = L.tileLayer(url, {
+       maxZoom: 18,
+       attribution: attr
+     });
+   
+   
+   // initialize the map 
+   var map = L.map('map').setView([-20.082267541368477,57.60715521428317], 12).addLayer(osm);
+   
+   // ////////region with additional fee /////////
+   var circle = L.circle([-20.110437124925095, 57.71898834623193], {
+       color: 'red',
+       fillColor: '#f03',
+       fillOpacity: 0.5,
+       radius: 700
+   }).addTo(map);
+   
+   // click event
+   map.on('click', onMapClick);
+   var toset = "pick_up"
+   var x1,x2,y1,y2
+   
+   
+   // markers storage
+   var markers = [];
+   
+   // Script for adding marker on map click
+   function onMapClick(e) {
+   
+     var geojsonFeature = {
+       "type": "Feature",
+       "properties": {},
+       "geometry": {
+         "type": "Point",
+         "coordinates": [e.latlng.lat, e.latlng.lng]
+       }
+       
+     }
+     pick_up_cordi = geojsonFeature["geometry"]["coordinates"] 
+     pick_up_x = geojsonFeature["geometry"]["coordinates"][0]
+     pick_up_y = geojsonFeature["geometry"]["coordinates"][1]
+   
+     input_field = document.getElementById(toset)
+     input_field.value = pick_up_cordi
+     if(toset=='pick_up'){
+       x1=pick_up_x 
+       y1=pick_up_y
+     }
+     else{
+       x2 = pick_up_x
+       y2=pick_up_y
+     }
+   Dis_in_km = distance(x1, y1, x2, y2,"K")
+   distance_text = document.getElementById("distance")
+   distance_text.value = Dis_in_km
+   
+   cal_price = price(Dis_in_km)
+   price_text = document.getElementById("price")
+   price_text.value = cal_price
+   
+     // remove previous marker
+     if (markers.length > 0) {
+       map.removeLayer(markers.pop());
+     }
+     var marker;
+   
+     L.geoJson(geojsonFeature, {
+   
+       pointToLayer: function(feature, latlng) {
+   
+         marker = L.marker(e.latlng, {
+   
+           title: "Resource Location",
+           alt: "Resource Location",
+           riseOnHover: true,
+           draggable: true,
+   
+         });
+         markers.push(marker)
+   
+         return marker;
+       }
+     }).addTo(map);
+   }
+   
+   // ////////////////////Calculate Distance /////////////////////////////////////////
+   function distance(lat1, lon1, lat2, lon2, unit) {
+       if ((lat1 == lat2) && (lon1 == lon2)) {
+           return 0;
+       }
+       else {
+           var radlat1 = Math.PI * lat1/180;
+           var radlat2 = Math.PI * lat2/180;
+           var theta = lon1-lon2;
+           var radtheta = Math.PI * theta/180;
+           var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+           if (dist > 1) {
+               dist = 1;
+           }
+           dist = Math.acos(dist);
+           dist = dist * 180/Math.PI;
+           dist = dist * 60 * 1.1515;
+           if (unit=="K") { dist = dist * 1.609344 }
+           if (unit=="N") { dist = dist * 0.8684 }
+           return dist.toFixed(2);
+       }
+   }
+   // /////////////////////Calculate the Price//////////////////////////
+   function price(dis){
+     est_price = dis * 50
+     return (est_price.toFixed(2))
+   }
+   /////////////////no additional fee ////////////////////////////////
+   
+   function isMarkerInsidePolygon(marker, poly) {
+       var inside = false;
+       var x = marker.getLatLng().lat, y = marker.getLatLng().lng;
+       for (var ii=0;ii<poly.getLatLngs().length;ii++){
+           var polyPoints = poly.getLatLngs()[ii];
+           for (var i = 0, j = polyPoints.length - 1; i < polyPoints.length; j = i++) {
+               var xi = polyPoints[i].lat, yi = polyPoints[i].lng;
+               var xj = polyPoints[j].lat, yj = polyPoints[j].lng;
+   
+               var intersect = ((yi > y) != (yj > y))
+                   && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+               if (intersect) inside = !inside;
+           }
+       }
+   
+       return inside;
+   };
+   
+   ////////////////////get current location for pick up/////////////////
+   var x = document.getElementById("pick_up");
+   
+   function getLocation() {
+     if (navigator.geolocation) {
+       navigator.geolocation.getCurrentPosition(showPosition);
+     } else { 
+       x.value = "Geolocation is not supported by this browser.";
+     }
+   }
+   
+   function showPosition(position) {
+     x.value = position.coords.latitude + "," + position.coords.longitude;
+   }
+   getLocation()
+</script>
+
+
+
+
+{% endblock extra_scripts %}

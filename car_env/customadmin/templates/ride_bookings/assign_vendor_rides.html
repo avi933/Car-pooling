@@ -1,0 +1,309 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+
+{% block extra_stylesheet %}
+
+{% endblock extra_stylesheet %}
+
+
+
+{% block content %}
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                Ride Vendor Bids
+                            </h4>
+
+                            <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Bids</th>
+                                    <th>Name</th>
+                                    <th>Phone No</th>
+                                    <th>Ride Type</th>
+                                    <th>Car Type</th>
+                                    <th>Pickup City</th>
+                                    <th>Drop City</th>
+                                    <th>Final Fare</th>
+                                    <th>Pickup Date-Time</th>
+                                    <th>Drop Date-Time</th>
+                                    <th>Booking Date-Time</th>
+                                    <th>Distance</th>
+                                    <th>Duration</th>
+                                    <th>Pickup</th>
+                                    <th>Drop</th>
+                                    <th>Additional Choices</th>
+                                    <th>Additional Hault</th>
+                                    <th>Advance</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for booking in bookings %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><input type="radio" name="booking" value="bids-{{ booking.id }}"></td>
+                                    <td>{{ booking.name }}</td>
+                                    <td>{{ booking.phone_no }}</td>
+                                    <td>{{ booking.ride_type }}</td>
+                                    <td>{{ booking.car_type }}</td>
+                                    <td>{{ booking.pickup_city }}</td>
+                                    <td>{{ booking.drop_city }}</td>
+                                    <td>{{ booking.final_ride_fare }}</td>
+                                    <td>{{ booking.pickup_datetime }}</td>
+                                    <td>{{ booking.drop_datetime }}</td>
+                                    <td>{{ booking.booking_datetime }}</td>
+                                    <td>{{ booking.distance }} Km</td>
+                                    <td>{{ booking.duration }} Min</td>
+                                    <td>{{ booking.pickup }}</td>
+                                    <td>{{ booking.drop }}</td>
+                                    <td>{% for choice in booking.additional_choices.all %}{{ choice.name }}{% endfor %} | &ensp;</td>
+                                    <td>{{ booking.additional_hault }}</td>
+                                    <td>{{ booking.advance }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->
+
+
+            <!-- <table id="myTable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Vendor<button type="button" onclick="sortTable()" class="btn btn-success waves-effect waves-light ml-1">
+                        <i class="bx bx-add-to-queue font-size-16 align-middle"></i>Sort</button></th>
+                    <th>Bid Amount<button type="button" onclick="sortTable()" class="btn btn-success waves-effect waves-light ml-1">
+                        <i class="bx bx-add-to-queue font-size-16 align-middle"></i>Sort</button></th>
+                    <th>Profit</th>
+                    <th>Comission</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                <tr>
+                    <td><a href="">Assign</a></td>
+                    <td>Abhinav</td>
+                    <td>100</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><a href="">Assign</a></td>
+                    <td>Saksham</td>
+                    <td>300</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><a href="">Assign</a></td>
+                    <td>Rahul</td>
+                    <td>200</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                
+                </tbody>
+            </table> -->
+
+
+
+        {% for booking in bookings %}
+            <div class="row booking-details" id="bids-{{ booking.id }}" style="display: none">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                Bids
+                                <a href="{% url 'customadmin:vendor_bids' booking.id %}">
+                                    <button type="button" style="float: right;" class="btn btn-success waves-effect waves-light mb-2">
+                                        <i class="bx bx-add-to-queue font-size-16 align-middle"></i> Update
+                                    </button>
+                                </a>
+                            </h4>
+
+                            <table id="" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Vendor<button type="button" onclick="sortTable('bids-{{ booking.id }}', 1)" class="btn btn-success waves-effect waves-light ml-1">
+                                        <i class="bx bx-add-to-queue font-size-16 align-middle"></i>Sort</button></th>
+                                    <th>Bid Amount<button type="button" onclick="sortTable('bids-{{ booking.id }}', 2)" class="btn btn-success waves-effect waves-light ml-1">
+                                        <i class="bx bx-add-to-queue font-size-16 align-middle"></i>Sort</button></th>
+                                    <th>Profit</th>
+                                    <th>Comission</th>
+                                    <th>Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for bid in booking.vendorbids_set.all %}
+                                <tr>
+                                    <td><a href="{% url 'customadmin:assign_final_vendor' bid.id %}">Assign</a></td>
+                                    <td>{{ bid.vendor }}</td>
+                                    <td>{{ bid.bid|floatformat:2 }}</td>
+                                    <td>{{ bid.profit }}</td>
+                                    <td>{{ bid.booking.assign_vendor.comission_amount }}</td>
+                                    <td>{{ bid.datetime }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->
+        {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
+
+{% block extra_scripts %}
+<script
+  src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+  integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
+  crossorigin="anonymous"></script>
+<script>
+    check = 0;
+
+    function sortTable(id, index){
+        console.log(id, index);
+        console.log("In thr sort table function")
+        if( check == 0 ){
+             sortTableAsec(id, index);
+             check = 1;
+         }else{
+             sortTableDesc(id, index);
+             check = 0;
+         }
+    }
+    
+    
+    function sortTableAsec(id, index) {
+      var table, rows, switching, i, x, y, shouldSwitch;
+      table = document.querySelector(`#${id} .table`);
+    // table = $(`#${id} .table`);
+        // console.log($(`#${id}`).innerHTML )
+      switching = true;
+      /*Make a loop that will continue until
+      no switching has been done:*/
+      while (switching) {
+        //start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        /*Loop through all table rows (except the
+        first, which contains table headers):*/
+        for (i = 1; i < (rows.length - 1); i++) {
+          //start by saying there should be no switching:
+          shouldSwitch = false;
+          /*Get the two elements you want to compare,
+          one from current row and one from the next:*/
+          x = rows[i].getElementsByTagName("TD")[`${index}`];
+          y = rows[i + 1].getElementsByTagName("TD")[`${index}`];
+          //check if the two rows should switch place:
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            //if so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        }
+        if (shouldSwitch) {
+          /*If a switch has been marked, make the switch
+          and mark that a switch has been done:*/
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+        }
+      }
+    }
+
+    function sortTableDesc(id, index) {
+      var table, rows, switching, i, x, y, shouldSwitch;
+      table = document.querySelector(`#${id} .table`);
+      switching = true;
+      /*Make a loop that will continue until
+      no switching has been done:*/
+      while (switching) {
+        //start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        /*Loop through all table rows (except the
+        first, which contains table headers):*/
+        for (i = 1; i < (rows.length - 1); i++) {
+          //start by saying there should be no switching:
+          shouldSwitch = false;
+          /*Get the two elements you want to compare,
+          one from current row and one from the next:*/
+          x = rows[i].getElementsByTagName("TD")[`${index}`];
+          y = rows[i + 1].getElementsByTagName("TD")[`${index}`];
+          //check if the two rows should switch place:
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            //if so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        }
+        if (shouldSwitch) {
+          /*If a switch has been marked, make the switch
+          and mark that a switch has been done:*/
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+        }
+      }
+    }
+
+
+
+    </script>
+
+    <!-- Required datatable js -->
+    <script src="{% static 'admin/libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'admin/libs/datatables.net-bs4/js/dataTables1.bootstrap4.min.js' %}"></script>
+    <!-- Buttons examples -->
+    <script src="{% static 'admin/libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'admin/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'admin/libs/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'admin/libs/pdfmake/build/pdfmake.min.js' %}"></script>
+    <script src="{% static 'admin/libs/pdfmake/build/vfs_fonts.js' %}"></script>
+    <script src="{% static 'admin/libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'admin/libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'admin/libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+
+    <!-- Responsive examples -->
+    <script src="{% static 'admin/libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'admin/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+    <!-- Datatable init js -->
+    <script src="{% static 'admin/js/pages/datatables.init.js' %}"></script>
+
+    <script>
+    $(document).ready(function(){
+        $('input[type=radio]').change(function(){
+            $('.booking-details').hide();
+            id = $(this).val()
+            str = '#' + id;
+            $(str).show();
+        });
+    });
+    </script>
+{% endblock extra_scripts %}

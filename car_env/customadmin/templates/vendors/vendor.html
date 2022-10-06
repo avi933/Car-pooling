@@ -1,0 +1,761 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+
+{% block extra_stylesheet %}
+<style>
+    .main-content{
+        font-size: 0.7rem !important;
+    }
+.main-info{
+    background-color:#fff;
+    padding: 10px;
+}
+.main-info h4{
+    font-size: 0.8rem;
+}
+.main-info h5{
+    color: blue;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+.bank-collapse h5{
+    font-size: 0.7rem;
+}
+.main-content img{
+    padding: 2px;
+}
+.img-button button{
+    margin: 5px;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+.collapase-car-images{
+    margin: 20px auto;
+}
+.collapase-car-images h5{
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: blue;
+}
+.collapase-car-images h6{
+    font-size: 0.8rem;
+    margin-top: 10px;
+}
+</style>
+{% endblock extra_stylesheet %}
+
+
+
+{% block content %}
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            
+            <!-- end page title -->
+            <div class="row">
+                <div class="col-sm-7  main-info">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div style="display: flex;">
+                                <h5 style="width: 50%;">Full Name</h5>
+                                <h4 style="width: 50%;">{{ vendor.full_name }}</h4>
+                            </div>
+                            <div style="display: flex;">
+                                <h5 style="width: 50%;">Father Name</h5>
+                                <h4 style="width: 50%;">{{ vendor.father_name }}</h4>
+                            </div>
+                            <div style="display: flex;">
+                                <h5 style="width: 50%;">Email</h5>
+                                <h4 style="width: 50%;">{{ vendor.email }}</h4>
+                            </div>
+                            <div style="display: flex;">
+                                <h5 style="width: 50%;">Address</h5>
+                                <h4 style="width: 50%;">{{ vendor.address }}</h4>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div style="display: flex;">
+                                <h5 style="width: 50%;">Dob</h5>
+                                <h4 style="width: 50%;">{{ vendor.dob }}</h4>
+                            </div>
+                            <div style="display: flex;">
+                                <h5 style="width: 50%;">Contact 1</h5>
+                                <h4 style="width: 50%;">{{ vendor.contact1 }}</h4>
+                            </div>
+                            <div style="display: flex;">
+                                <h5 style="width: 50%;">Contact 2</h5>
+                                <h4 style="width: 50%;">{{ vendor.contact2 }}</h4>
+                            </div>
+                            <div style="display: flex;">
+                                <h5 style="width: 50%;">GST Number</h5>
+                                <h4 style="width: 50%;">{{ vendor.gst_no }}</h4>
+                            </div>
+                        </div>
+                        {% if vendor.image %}
+                        <div class="col-sm-3 img-button">
+                            <img src="{{ vendor.image.url }}" alt="" width="100%" class="center">
+                            <div style="margin-bottom: 20px"></div>
+                            
+                        </div>
+                        {% endif %}
+                    </div>
+                    <!-- <div class="row">
+                        <a href="{% url 'customadmin:vendor_update_status' vendor.id %}">
+                            <button type="button" class="btn btn-success waves-effect waves-light mb-2">
+                                <i class="bx bx-check-square font-size-16 align-middle"></i><span style="font-size: 0.7rem;"> Change Status </span>
+                            </button>
+                        </a>
+                        <a href="{% url 'customadmin:vendor_edit' vendor.id %}">
+                            <button type="button" class="btn btn-warning waves-effect waves-light mb-2">
+                                <i class="bx bx-edit-alt  font-size-16 align-middle"></i><span style="font-size: 0.7rem;"> Edit</span>
+                            </button>
+                        </a>
+                        <a href="{% url 'customadmin:vendor_delete' vendor.id %}">
+                            <button type="button" class="btn btn-danger waves-effect waves-light mb-2">
+                                <i class="bx bx-trash font-size-16 align-middle"></i><span style="font-size: 0.7rem;"> Delete</span>
+                            </button>
+                        </a>
+                    </div> -->
+                    <div class="row" style="margin: 15px auto;">
+                        <div style="display: flex; margin: auto;">
+                            <a href="{% url 'customadmin:vendor_update_status' vendor.id %}">
+                                <button style="display: flex; margin: auto; margin-bottom: 0px !important; margin-right: 5px;" type="button" class="btn btn-success waves-effect waves-light mb-2">
+                                    <i class="bx bx-add-to-queue font-size-16 align-middle"></i> Change Status
+                                </button>
+                            </a>
+                            <a href="{% url 'customadmin:vendor_edit' vendor.id %}">
+                                <button style="display: flex; margin: auto; margin-bottom: 0px !important; margin-right: 5px;" type="button" class="btn btn-warning waves-effect waves-light mb-2">
+                                    <i class="bx bx-add-to-queue font-size-16 align-middle"></i> Edit
+                                </button>
+                            </a>
+{#                            <a href="{% url 'customadmin:vendor_delete' vendor.id %}">#}
+{#                                <button style="display: flex; margin: auto; margin-bottom: 0px !important; margin-right: 5px;" type="button" class="btn btn-danger waves-effect waves-light mb-2">#}
+{#                                    <i class="bx bx-add-to-queue font-size-16 align-middle"></i> Delete#}
+{#                                </button>#}
+{#                            </a>#}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h4>Aadhar Card</h4>
+                            {% if vendor.aadharcard_front %}
+                                <a href="{{ vendor.aadharcard_front.url }}">
+                                    <img src="{{ vendor.aadharcard_front.url }}" alt="" width="100%" style="max-height: 100px;">
+                                </a>
+                            {% endif %}
+                            {% if vendor.aadharcard_rear %}
+                                <a href="{{ vendor.aadharcard_rear.url }}">
+                                    <img src="{{ vendor.aadharcard_rear.url }}" alt="" width="100%" style="max-height: 100px;">
+                                </a>
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-3">
+                            <h4>Voter Card</h4>
+                            {% if vendor.votercard_front %}
+                                <a href="{{ vendor.votercard_front.url }}">
+                                <img src="{{ vendor.votercard_front.url }}" alt="" width="100%" style="max-height: 100px;">
+                                </a>
+                            {% endif %}
+                            {% if vendor.votercard_rear %}
+                                <a href="{{ vendor.votercard_rear.url }}">
+                                <img src="{{ vendor.votercard_rear.url }}" alt="" width="100%" style="max-height: 100px;">
+                                </a>
+                            {% endif %}
+                        </div>
+                        {% if vendor.pancard %}
+                        <div class="col-sm-3">
+                            <h4>Pan Card</h4>
+                            <a href="{{ vendor.pancard.url }}">
+                            <img src="{{ vendor.pancard.url }}" alt="" width="100%" style="max-height: 100px;">
+                            </a>
+                        </div>
+                        {% endif %}
+                        <div class="col-sm-3">
+                            <h4>DL</h4>
+                            {% if vendor.driving_licence_front %}
+                                <a href="{{ vendor.driving_licence_front.url }}">
+                                <img src="{{ vendor.driving_licence_front.url }}" alt="" width="100%" style="max-height: 100px;">
+                                </a>
+                            {% endif %}
+                            {% if vendor.driving_licence_rear %}
+                                <a href="{{ vendor.driving_licence_rear.url }}">
+                                <img src="{{ vendor.driving_licence_rear.url }}" alt="" width="100%" style="max-height: 100px;">
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card" style="height: auto ;overflow-y: auto;">
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        Bank Accounts
+                                        <a href="{% url 'customadmin:vendor_banks_update' vendor.id %}">
+                                            <button type="button" style="float: right;" class="btn btn-primary waves-effect waves-light mb-2" >
+                                                <i class="bx bx-add-to-queue font-size-16 align-middle"></i> Update
+                                            </button>
+                                        </a>
+                                    </h4>
+        
+                                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Account Number</th>
+                                            <th>Bank Name</th>
+                                            <th>IFSC</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                            <!-- for one row the main part -->
+                                            {% for bank in vendor.bank_detail_set.all %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ bank.account_no }}</td>
+                                            <td>{{ bank.ifsc }}</td>
+                                            <td>
+                                                    <button type="button" style="margin-right: 10px;" class="btn btn-warning waves-effect waves-light" data-toggle="collapse" data-target="#collapseExampleBankAccounts-{{ forloop.counter }}" aria-expanded="false" aria-controls="collapseExampleBankAccounts-{{ forloop.counter }}">
+                                                        <i class="bx bx-add-to-queue font-size-16 align-middle"></i>
+                                                        <span style="font-size: 0.7rem;">Details</span>
+                                                    </button>
+
+                                            </td>
+                                        </tr>
+
+                                        <!-- collapse part of one row -->
+                                        <tr>
+                                            <td colspan="5" class="collapse-row" style="padding: 0px;">
+                                                <div class="collapse" id="collapseExampleBankAccounts-{{ forloop.counter }}">
+                                                    <div class="card">
+                                                        <div class="card-body bank-collapse row">
+                                                            <div class="col-4">
+                                                                <h5>Account Number</h5>
+                                                                <h5>Account Holder Name</h5>
+                                                                <h5>Bank Name</h5>
+                                                                <h5>Account Type</h5>
+                                                                <h5>IFSC</h5>
+                                                                <h5>Bank Address</h5>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <h5>{{ bank.account_no }}</h5>
+                                                                <h5>{{ bank.account_holder_name }}</h5>
+                                                                <h5>{{ bank.bank_name }}</h5>
+                                                                <h5>{{ bank.account_type }}</h5>
+                                                                <h5>{{ bank.ifsc }}</h5>
+                                                                <h5>{{ bank.bank_address }}</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card" style="height: auto ;overflow-y: auto;">
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        Promotional Codes
+                                        <a href="{% url 'customadmin:customer_update_promotional' vendor.user.id %}">
+                                        <button type="button" style="float: right;" class="btn btn-primary waves-effect waves-light mb-2">
+                                            <i class="bx bx-add-to-queue font-size-16 align-middle"></i> Update
+                                        </button>
+                                    </a>
+                                    </h4>
+        
+                                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Promotional Code</th>
+                                            <th>Referral Benefit</th>
+                                            <th>Customer Benefit</th>
+                                            <th>Activated</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for refferal_code in vendor.user.user_referral_set.all %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ refferal_code.promotional_code }}</td>
+                                            <td>{{ refferal_code.referralbenefit }}</td>
+                                            <td>{{ refferal_code.customerbenefit }}</td>
+                                            <td>{{ refferal_code.is_activated }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--  -->
+            <div class="row" style="margin-top: 20px;">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card" style="height: auto ;overflow-y: auto;">
+                                <div class="card-body" style="height: 500px; overflow: scroll;">
+                                    <h4 class="card-title">
+                                        Cars
+                                        <a href="{% url 'customadmin:vendor_car_add' vendor.id %}">
+                                            <button type="button" style="float: right;" class="btn btn-primary waves-effect waves-light mb-2">
+                                                <i class="bx bx-add-to-queue font-size-16 align-middle"></i> Add
+                                            </button>
+                                        </a>
+                                    </h4>
+        
+                                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Car Type</th>
+                                                <th>Owner Name</th>
+                                                <th>Father Name</th>
+                                                <th>Registration Number</th>
+                                                <th>Date of Registration</th>
+                                                <th>Status</th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for car in vendor.vendor_cars_set.all %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ car.car_type }}</td>
+                                            <td>{{ car.owner_name }}</td>
+                                            <td>{{ car.father_name }}</td>
+                                            <td>{{ car.registration_no }}</td>
+                                            <td>{{ car.dateofregistration }}</td>
+                                            <td>{{ car.status }}</td>
+                                            <td>
+                                                <a href="{% url 'customadmin:vendor_car_edit' car.id %}">
+                                                    <i class="bx bx-edit-alt font-size-16 align-middle"></i>
+                                                </a>
+                                                <a href="{% url 'customadmin:vendor_car_delete' car.id %}">
+                                                    <i class="bx bxs-trash font-size-16 align-middle"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <button type="button" style="margin-right: 10px;" class="btn btn-warning waves-effect waves-light" data-toggle="collapse" data-target="#collapseExampleCar-{{ car.id }}" aria-expanded="false" aria-controls="collapseExampleCar-{{ car.id }}">
+                                                    <i class="bx bx-add-to-queue font-size-16 align-middle"></i>
+                                                    <span style="font-size: 0.7rem;">Details</span>
+                                                </button>
+                                            </td>
+
+                                        <tr>
+                                            <td colspan="5" class="collapse-row" style="padding: 0px;">
+                                                <div class="collapse" id="collapseExampleCar-{{ car.id }}">
+                                                    <div class="card">
+                                                        <div class="card-body bank-collapse row">
+                                                            <div class="col-6">
+                                                                <h5>R.C. Valid Upto</h5>
+                                                                <h5>Tourist Permit Valid Upto</h5>
+                                                                <h5>Insurance Valid Upto</h5>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <h5>{{ car.rc_valid_upto }}</h5>
+                                                                <h5>{{ car.touristpermit_valid_upto }}</h5>
+                                                                <h5>{{ car.insurance_valid_upto }}</h5>
+                                                            </div>
+                                                            <div class="row collapase-car-images">
+                                                                <div class="col-sm-3">
+                                                                    <h5>Car Photo</h5>
+                                                                    {% if car.image_front %}
+                                                                        <h6>Front</h6>
+                                                                         <img src="{{ car.image_front.url }}" alt="" width="60%%"     style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                    {% if car.image_rear %}
+                                                                         <h6>Back</h6>
+                                                                        <img src="{{ car.image_rear.url }}" alt="" width="60%%"  style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <h5>RC Photo</h5>
+                                                                    {% if car.rc_front %}
+                                                                        <h6>Front</h6>
+                                                                         <img src="{{ car.rc_front.url }}" alt="" width="60%%"     style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                    {% if car.rc_rear %}
+                                                                         <h6>Back</h6>
+                                                                        <img src="{{ car.rc_rear.url }}" alt="" width="60%%"  style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <h5>Tourist Permit</h5>
+                                                                    {% if car.touristpermit_front %}
+                                                                        <h6>Front</h6>
+                                                                         <img src="{{ car.touristpermit_front.url }}" alt="" width="60%%"     style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                    {% if car.touristpermit_rear %}
+                                                                         <h6>Back</h6>
+                                                                        <img src="{{ car.touristpermit_rear.url }}" alt="" width="60%%"  style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <h5>Permit A</h5>
+                                                                    {% if car.permita_front %}
+                                                                    <h6>Front</h6>
+                                                                     <img src="{{ car.permita_front.url }}" alt="" width="60%%"     style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                    {% if car.permita_rear %}
+                                                                    <h6>Back</h6>
+                                                                    <img src="{{ car.permita_rear.url }}" alt="" width="60%%"  style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                </div>
+                                                                <div class="col-sm-3">
+
+                                                                    <h5>Permit B</h5>
+                                                                    {% if car.permitb_front %}
+                                                                    <h6>Front</h6>
+                                                                     <img src="{{ car.permitb_front.url }}" alt="" width="60%%"     style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                    {% if car.permitb_rear %}
+                                                                    <h6>Back</h6>
+                                                                    <img src="{{ car.permitb_rear.url }}" alt="" width="60%%"  style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <h5>Insurance</h5>
+                                                                    {% if car.insurance_front %}
+                                                                    <h6>Front</h6>
+                                                                     <img src="{{ car.insurance_front.url }}" alt="" width="60%%"     style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                    {% if car.insurance_rear %}
+                                                                    <h6>Back</h6>
+                                                                    <img src="{{ car.insurance_rear.url }}" alt="" width="60%%"  style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                </div>
+                                                                {% if car.insurance_rear %}
+                                                                    <div class="col-sm-3">
+                                                                        <h5>Polution Certificate</h5>
+                                                                        <h6></h6>
+
+                                                                         <img src="{{ car.pollution_certificate.url }}" alt="" width="60%%"     style="max-height: 100px;">
+
+    {#                                                                     <h6>Pollution Certificate</h6>#}
+
+    {#                                                                    <img src="{{ car.permita_rear.url }}" alt="" width="60%%"  style="max-height: 100px;">#}
+                                                                    </div>
+                                                                {% endif %}
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                  </div>
+                                            </td>
+                                            
+                                        </tr>
+                                        {% endfor %}
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card" style="height: auto ;overflow-y: auto;">
+                                <div class="card-body"  style="height: 500px; overflow: scroll;">
+                                    <h4 class="card-title">
+                                        Drivers
+                                        <a href="{% url 'customadmin:vendor_driver_add' vendor.id %}">
+                                            <button type="button" style="float: right;" class="btn btn-primary mr-2 waves-effect waves-light mb-2">
+                                                <i class="bx bx-add-to-queue font-size-16 align-middle"></i> Add
+                                            </button>
+                                        </a>
+                                    </h4>
+        
+                                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Full Name</th>
+                                            <th>Father Name</th>
+                                            <th>Mobile</th>
+                                            <th>Alternate Mobile</th>
+                                            <th>Email</th>
+                                            <th>Status</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for driver in vendor.driver_set.all %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ driver.full_name }}</td>
+                                            <td>{{ driver.father_name }}</td>
+                                            <td>{{ driver.contact1 }}</td>
+                                            <td>{{ driver.contact2 }}</td>
+                                            <td>{{ driver.email }}</td>
+                                            <td>{{ driver.status }}</td>
+                                            <td>
+                                                <a href="{% url 'customadmin:vendor_driver_edit' driver.id %}">
+                                                    <i class="bx bx-edit-alt font-size-16 align-middle"></i>
+                                                </a>
+                                                <a href="{% url 'customadmin:vendor_driver_delete' driver.id %}">
+                                                    <i class="bx bxs-trash font-size-16 align-middle"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <button type="button" style="margin-right: 10px;" class="btn btn-warning waves-effect waves-light" data-toggle="collapse" data-target="#collapseExampleDriver-{{ driver.id }}" aria-expanded="false" aria-controls="collapseExampleDriver-{{ driver.id }}">
+                                                    <i class="bx bx-add-to-queue font-size-16 align-middle"></i>
+                                                    <span style="font-size: 0.7rem;">Details</span> 
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="5" class="collapse-row" style="padding: 0px;">
+                                                <div class="collapse" id="collapseExampleDriver-{{ driver.id }}">
+                                                    <div class="card">
+                                                        <div class="card-body bank-collapse row">
+                                                            <div class="col-4">
+                                                                <h5>DOB</h5>
+                                                                <h5>Address</h5>
+                                                                <h5>DL Number</h5>
+                                                                <h5>DL Valid From</h5>
+                                                                <h5>DL Valid Till</h5>
+                                                                <h5>Driving Experience</h5>
+                                                                <h5>Hill Experience</h5>
+                                                                {% if dricer.legal_accidental_case %}
+                                                                    <h5>Legal Case Details</h5>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <h5>{{ driver.dob }}</h5>
+                                                                <h5>{{ driver.address }}</h5>
+                                                                <h5>{{ driver.driving_licence_no }}</h5>
+                                                                <h5>{{ driver.driving_licence_valid_from }}</h5>
+                                                                <h5>{{ driver.driving_licence_valid_till }}</h5>
+                                                                <h5>{{ driver.driving_experience }}</h5>
+                                                                <h5>{{ driver.hill_experience }}</h5>
+                                                                {% if dricer.legal_accidental_case %}
+                                                                    <h5>{{ driver.legal_accidental_case_details }}</h5>
+                                                                {% endif %}
+                                                            </div>
+                                                            {% if driver.image %}
+                                                            <div class="col-4">
+                                                                <img src="{{ driver.image.url }}" alt="" width="80%" style="max-width: 200px;">
+                                                            </div>
+                                                            {% endif %}
+
+                                                            <div class="row collapase-car-images">
+                                                                <div class="col-sm-3">
+                                                                    <h5>PanCard</h5>
+                                                                    {% if driver.pancard_rear %}
+                                                                        <h6>Front</h6>
+                                                                        <img src="{{ driver.pancard_front.url }}" alt="" width="60%%"     style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                    {% if driver.pancard_rear %}
+                                                                         <h6>Back</h6>
+                                                                        <img src="{{ driver.pancard_rear.url }}" alt="" width="60%%"  style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <h5>RC Photo</h5>
+                                                                    {% if driver.aadharcard_front %}
+                                                                        <h6>Front</h6>
+                                                                        <img src="{{ driver.aadharcard_front.url }}" alt="" width="60%%"     style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                    {% if driver.aadharcard_rear %}
+                                                                         <h6>Back</h6>
+                                                                        <img src="{{ driver.aadharcard_rear.url }}" alt="" width="60%%"  style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                </div>
+                                                                {% if driver.votercard_front or driver.votercard_rear %}
+                                                                <div class="col-sm-3">
+                                                                    <h5>Voter Card</h5>
+                                                                    {% if driver.votercard_front %}
+                                                                        <h6>Front</h6>
+                                                                         <img src="{{ driver.aadharcard_rear.url }}" alt="" width="60%%"     style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                    {% if driver.votercard_rear %}
+                                                                         <h6>Back</h6>
+                                                                        <img src="{{ driver.aadharcard_rear.url }}" alt="" width="60%%"  style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                </div>
+                                                                {% endif %}
+
+                                                                {% if driver.driving_licence_front or driver.driving_licence_rear %}
+                                                                <div class="col-sm-3">
+                                                                    <h5>Driving Licence</h5>
+                                                                    {% if driver.driving_licence_front %}
+                                                                        <h6>Front</h6>
+                                                                         <img src="{{ driver.driving_licence_front.url }}" alt="" width="60%%"     style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                    {% if driver.driving_licence_rear %}
+                                                                         <h6>Back</h6>
+                                                                        <img src="{{ driver.driving_licence_rear.url }}" alt="" width="60%%"  style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                </div>
+                                                                {% endif %}
+
+                                                                {% if driver.police_verification_front or driver.police_verification_rear %}
+                                                                <div class="col-sm-3">
+                                                                    <h5>Police Verification</h5>
+                                                                    {% if driver.police_verification_front %}
+                                                                        <h6>Front</h6>
+                                                                         <img src="{{ driver.police_verification_front.url }}" alt="" width="60%%"     style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                    {% if driver.police_verification_rear %}
+                                                                         <h6>Back</h6>
+                                                                        <img src="{{ driver.police_verification_rear.url }}" alt="" width="60%%"  style="max-height: 100px;">
+                                                                    {% endif %}
+                                                                </div>
+                                                                {% endif %}
+
+                                                                {% if legal_accidental_case %}
+                                                                    <div class="col-sm-3">
+                                                                        <h5>Other</h5>
+                                                                        <h6>Legal Case Document</h6>
+                                                                         <img src="{{ driver.legal_accidental_case_document.url }}" alt="" width="60%%"     style="max-height: 100px;">
+                                                                    </div>
+                                                                {% endif %}
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                  </div>
+                                            </td>
+                                            
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card" style="height: auto ;overflow-y: auto;">
+                                <div class="card-body"  style="height: 300px; overflow: scroll;">
+                                    <h4 class="card-title">
+                                        Payments
+                                        <a href="">
+                                            <button type="button" style="float: right;" class="btn btn-success waves-effect waves-light mb-2">
+                                                <i class="bx bx-add-to-queue font-size-16 align-middle"></i> Update
+                                            </button>
+                                        </a>
+                                    </h4>
+        
+                                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Account Holder name</th>
+                                            <th>Account Number</th>
+                                            <th>Bank Name</th>
+                                            <th>Account Type</th>
+                                            <th>IFSC</th>
+                                            <th>Bank Address</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card" style="height: auto ;overflow-y: auto;">
+                                <div class="card-body"  style="height: 300px; overflow: scroll;">
+                                    <h4 class="card-title">
+                                        Bookings
+                                        <a href="">
+                                            <button type="button" style="float: right;" class="btn btn-success waves-effect waves-light mb-2">
+                                                <i class="bx bx-add-to-queue font-size-16 align-middle"></i> Update
+                                            </button>
+                                        </a>
+                                    </h4>
+        
+                                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Account Holder name</th>
+                                            <th>Account Number</th>
+                                            <th>Bank Name</th>
+                                            <th>Account Type</th>
+                                            <th>IFSC</th>
+                                            <th>Bank Address</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+
+
+</div>
+
+{% endblock content %}
+
+
+
+
+{% block extra_scripts %}
+
+{% endblock extra_scripts %}

@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load fullurl %}
+{% block extra_stylesheet %}
+{% load template_tag %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="{% static 'css/vendor.css' %}" rel="stylesheet">
+ 
+<style>
+    
+</style>
+{% endblock extra_stylesheet %}
+{% block content %}
+<div class="tj-wrapper">
+    <div class="container">
+        <div class="row">
+
+          {% include 'Vendor/vendorSidebar.html' %}
+
+<div class="col-md-9 your-booking">
+    
+        <div class="col-md-12 col-sm-12 vendorHeader">
+           <h4 class="text-center">
+              Available Booking
+              <p>(Active Rides)</p>
+           </h4>
+        </div>
+        <div class="col-sm-12 col-md-12" style="margin-top: 20px;">
+            <form>
+                <div class="row booking-frm">
+                   <div class="col-sm-1">
+
+                   </div>
+                    <div class="col-sm-3">
+                        <input type="radio" id="date" name="sort" value="date">
+                        <label for="male">Sort By Date</label><br>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="radio" id="booking" name="sort" value="booking">
+                        <label for="female">Sort By Booking</label><br>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="checkbox" id="other" name="your-bookings" value=1>
+                        <label for="other">Your Bookings</label>
+                    </div>
+                    <button class="book-btn" style="min-width: 100px; padding: 5px 0;" type="submit">Submit</button>
+                </div>
+            </form>
+
+           
+        </div>
+        <div class="col-sm-12" style="margin-left: 80%; margin-top: 5px; margin-bottom: 5px;">
+         <div style="font-size: large;"><a href=""> &#8635 Refresh Info</a></div>
+         </div>
+        {% for booking in bookings %}
+        <div id="listitem1" class="list">
+           <div class="col-sm-12 col-md-12">
+              <div class="col-sm-1" class="listNumber">
+                  {{ forloop.counter }}
+              </div>
+              <div class="col-sm-7 heading">
+                 <a data-toggle="collapse" href="#booking-detail-{{ booking.id }}" aria-expanded="false" aria-controls="booking-detail-{{ booking.id }}">
+                    <h4 class="boldBlack">
+                       <span class="from">{{ booking.pickup_city }}</span>
+                       To 
+                       <span class="to">{{ booking.drop_city }}</span>
+                        <span>v</span>
+                    </h4>
+                 </a>
+                 <h5 class="heading-Id">
+                 Booking Id: <span class="bookingId">{{ booking.id }}</span></h5>
+                 <h5 class="heading-type">
+                 {{ booking.ride_type }}/ <span>{{ booking.car_type }}</span></h5>
+                 <h5>Night Pick Allowance {% if booking.early_pickup_charges %}<span class="nightPickAllowance check">&nbsp;&nbsp;&nbsp;&#10004</span>{% else %}<span class="nightPickAllowance cross">&nbsp;&nbsp;&nbsp;<i class="fas fa-times"></i></span>{% endif %}</h5>
+                <h5>Night Drop Allowance {% if booking.late_drop_charges %}<span class="nightDropAllowance check">&nbsp;&nbsp;&#10004</span>{% else %}<span class="nightDropAllowance cross">&nbsp;&nbsp;<i class="fas fa-times"></i></span>{% endif %}</h5>
+                <h5>Driver Allowance {% if booking.night_charges %}<span class="driverAllowance check">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10004</span>{% else %}<span class="driverAllowance cross">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-times"></i></span>{% endif %}</h5>
+                <h5>                                                                 <div class="row">
+                                 <div class="col-sm-4 noPadding1"><span class="cngAllowed">
+                                    <img src="{% static 'images/fleet-carousel-img3.png' %}" alt="" width="20%"> CNG Allowed
+                                    </span></div>
+                                 <div class="col-sm-4 noPadding1">
+                                    <span class="dieselAllowed">
+                                       <img src="{% static 'images/fleet-carousel-img3.png' %}" alt="" width="20%"> Diesel Only</span>
+                                 </div>
+                                 <div class="col-sm-4 noPadding1">
+                                    <span class="electricAllowed">
+                                       <img src="{% static 'images/fleet-carousel-img3.png' %}" alt="" width="20%"> Electric Allowed</span>
+                                 </div>
+                              </div>
+                </h5>
+              </div>
+              <div class="col-sm-4 card-date">
+                 <h4>
+                     <img src="{% static 'images/icons/Payment-inactive.png' %}" alt="" width="10%"> <span class="date"></span>{{ booking.pickup_datetime|date:"j-M-Y, l" }}<span id="day"></span></h4>
+                 <h4>
+                     <img src="{% static 'images/icons/Assignments-inactive.png' %}" alt="" width="10%"> <span class="time">{{ booking.pickup_datetime|time:"h:i A" }}</span></h4>
+                 <div>
+                     
+                     <h4>
+                         <img src="{% static 'images/icons/Car-details--inactive.png' %}" alt=""  width="10%">
+                         <span>KM Limit : {{ booking.distance }}</span>
+                         <small style="visibility: visible;"> km</small><br>
+                     <small style="visibility: visible;">Extra km Charges: Rs {{ booking.price_km }}/-</small>
+                     </h4>
+                 </div>
+                 <h5 style="visibility: visible;">
+                     <img src="{% static 'images/icons/Payment-inactive.png' %}" alt="" width="10%">Recommended Amount <br> 
+                     <span>{{ booking.assign_vendor.vendor_recommended_amount }}</span>
+                 </h5>
+             </div>
+           </div>
+           <div class="col-sm-12 col-md-12 card-collapse">
+              <div class="collapse" id="booking-detail-{{ booking.id }}">
+                 <div class="card card-body">
+                     <div class="col-sm-12 col-md-12 cardGreyStyle" >
+                        <div class="col-sm-1">
+
+                        </div>
+                        <div class="col-sm-4">
+                           <h5 class="boldBlack">Pickup Location</h5>
+                           <h5>{{ booking.pickup }}</h5>
+                        </div>
+                        <div class="col-sm-4">
+                           <h5 class="boldBlack">Drop Location</h5>
+                           <h5>{{ booking.drop }}</h5>
+                        </div>
+                     </div>
+                    
+                    <div class="col-sm-12 col-md-12">
+                     <div class="col-sm-1">
+                           
+                     </div>
+                       <div class="col-sm-4">
+                          <h4 class="boldBlack">Special Requirements</h4>
+                       </div>
+                       <div class="col-sm-12 col-md-12">
+                        <div class="col-sm-1">
+                           
+                        </div>
+                           {% for choice in booking.additional_choices.all %}
+                              <div class="col-sm-3">
+                                 <h6>{{ choice.name }}</h6>
+                              </div>
+                           {% endfor %}
+                       </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+                     <div class="col-sm-1">
+                           
+                     </div>
+                       <small style="visibility: visible; color: red;">Note: {{ booking.note }}</small>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="col-sm-12 col-md-12 card-buttons">
+              <div class="col-sm-1">
+              </div>
+              <div class="col-sm-11 booking-frm">
+                  <form class="booking-form" method="post">
+                      {% csrf_token %}
+                     <div class="col-sm-6" style="margin-bottom: 10px;padding-left: 0px;">
+                        <div style="display: flex;width:fit-content;">
+                           <button class="book-btn" type="submit">Bid Your Amount</button>
+                           <input type="number" name="bid" value="{{ request.user|latest_bid:booking }}" style="margin-bottom: 0px;">
+                           <input type="number" name="booking_id" value="{{ booking.id }}" style="margin-bottom: 0px;" hidden>
+                           <input type="number" name="user_id" value="{{ request.user.id }}" style="margin-bottom: 0px;" hidden>
+                        </div>
+                     </div>
+                     <div class="col-sm-6" style="margin-bottom: 10px;">
+                    <div style="display: flex;width:fit-content;">
+                       <button class="book-btn" type="submit">Submit</button>&nbsp;&nbsp;
+                       <button style="background-color: #7f7f7f;" class="book-btn" type="button">Cancel</button><br>
+                    </div>
+                 </div>
+                  </form>
+              </div>
+           </div>
+        </div>
+        {% endfor %}
+
+        </div>
+                    </div>
+                </div>
+            </div>
+            
+{% endblock content %}
+
+
+
+
+{% block extra_scripts %}
+
+<script>
+    $(".booking-form").submit(function(e) {
+    e.preventDefault(); // avoid to execute the actual submit of the form.
+    console.log("Hi")
+
+    var form = $(this);
+
+    $.ajax({
+           type: "POST",
+           url: "{% url 'vendor:booking_vendor_bid' %}",
+           data: form.serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+
+            // $("#event_form")[0].reset();
+             alert('Bid Amount Updated Successfully.');
+
+            //  setTimeout(function(){// wait for 5 secs(2)
+               //location.reload(); // then reload the page.(3)
+          //  }, 2000);
+
+           }
+         });
+    });
+    </script>
+
+
+{% endblock extra_scripts %}

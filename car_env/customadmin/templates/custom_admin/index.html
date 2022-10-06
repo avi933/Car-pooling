@@ -1,0 +1,518 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+
+{% block extra_stylesheet %}
+
+{% endblock extra_stylesheet %}
+
+
+
+{% block content %}
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="main-content">
+
+                <div class="page-content">
+                    <div class="container-fluid">
+
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-flex align-items-center justify-content-between">
+                                    <h4 class="mb-0 font-size-18">Dashboard</h4>
+
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
+                                            <li class="breadcrumb-item active">Dashboard</li>
+                                        </ol>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end page title -->
+
+                        <div class="row">
+                            <div class="col-xl-4">
+                                <div class="card overflow-hidden">
+                                    <div class="bg-soft-primary">
+                                        <div class="row">
+                                            <div class="col-7">
+                                                <div class="text-primary p-3">
+                                                    <h5 class="text-primary">Welcome Back !</h5>
+                                                    <p>Admin Dashboard</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-5 align-self-end">
+                                                <img src="{% static 'admin/images/profile-img.png' %}" alt="" class="img-fluid">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body pt-0">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="avatar-md profile-user-wid mb-4">
+                                                    <img src="{% static 'admin/images/users/avatar-1.jpg' %}" alt="" class="img-thumbnail rounded-circle">
+                                                </div>
+                                                <h5 class="font-size-15 text-truncate">{{ request.user.username }}</h5>
+                                                <p class="text-muted mb-0 text-truncate">TaxoTaxi Admin</p>
+                                            </div>
+
+                                            <div class="col-sm-8">
+                                                <div class="pt-4">
+
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <h5 class="font-size-15">125</h5>
+                                                            <p class="text-muted mb-0">Rides</p>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <h5 class="font-size-15">&#8377;1245</h5>
+                                                            <p class="text-muted mb-0">Revenue</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-4">
+                                                        <a href="" class="btn btn-primary waves-effect waves-light btn-sm">View Profile <i class="mdi mdi-arrow-right ml-1"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title mb-4">Monthly Earning</h4>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <p class="text-muted">This month</p>
+                                                <h3>&#8377;34,252</h3>
+                                                <p class="text-muted"><span class="text-success mr-2"> 12% <i class="mdi mdi-arrow-up"></i> </span> From previous period</p>
+
+                                                <div class="mt-4">
+                                                    <a href="" class="btn btn-primary waves-effect waves-light btn-sm">View More <i class="mdi mdi-arrow-right ml-1"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="mt-4 mt-sm-0">
+                                                    <div id="radialBar-chart" class="apex-charts"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="text-muted mb-0">We craft digital, graphic and dimensional thinking.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-8">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="card mini-stats-wid">
+                                            <div class="card-body">
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <p class="text-muted font-weight-medium">Orders</p>
+                                                        <h4 class="mb-0">1,235</h4>
+                                                    </div>
+
+                                                    <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
+                                                        <span class="avatar-title">
+                                                            <i class="bx bx-copy-alt font-size-24"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card mini-stats-wid">
+                                            <div class="card-body">
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <p class="text-muted font-weight-medium">Revenue</p>
+                                                        <h4 class="mb-0">&#8377;35, 723</h4>
+                                                    </div>
+
+                                                    <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                                        <span class="avatar-title rounded-circle bg-primary">
+                                                            <i class="bx bx-archive-in font-size-24"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card mini-stats-wid">
+                                            <div class="card-body">
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <p class="text-muted font-weight-medium">Average Pr</p>
+                                                        <h4 class="mb-0">&#8377;16.2</h4>
+                                                    </div>
+
+                                                    <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
+                                                        <span class="avatar-title rounded-circle bg-primary">
+                                                            <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end row -->
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title mb-4 float-sm-left">Email Sent</h4>
+                                        <div class="float-sm-right">
+                                            <ul class="nav nav-pills">
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#">Week</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#">Month</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" href="#">Year</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div id="stacked-column-chart" class="apex-charts" dir="ltr"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+
+                        <div class="row">
+                            <div class="col-xl-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title mb-4">Top Cities</h4>
+
+{#                                        <div class="text-center">#}
+{#                                            <div class="mb-4">#}
+{#                                                <i class="bx bx-map-pin text-primary display-4"></i>#}
+{#                                            </div>#}
+{#                                            <h3>1,456</h3>#}
+{#                                            <p>San Francisco</p>#}
+{#                                        </div>#}
+
+                                        <div class="table-responsive mt-4">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                <h5>Pickup</h5>
+                                                    <table class="table table-centered table-nowrap">
+                                                    <tbody>
+                                                        {% for city in top_drop_cities %}
+                                                        <tr>
+                                                            <td style="width: 30%">
+                                                                <p class="mb-0">{{ city.drop_city__name }}</p>
+                                                            </td>
+                                                            <td style="width: 25%">
+                                                                <h5 class="mb-0">{{ city.drop_city__count }}</h5></td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                                </div>
+                                                <div class="col-6">
+                                                <h5>Drop</h5>
+                                                    <table class="table table-centered table-nowrap">
+                                                    <tbody>
+                                                        {% for city in top_pickup_cities %}
+                                                        <tr>
+                                                            <td style="width: 30%">
+                                                                <p class="mb-0">{{ city.pickup_city__name }}</p>
+                                                            </td>
+                                                            <td style="width: 25%">
+                                                                <h5 class="mb-0">{{ city.pickup_city__count }}</h5></td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title mb-4">Late Running Rides</h4>
+                                        <div class="table-responsive">
+                                            <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Assign Car-Driver / Start Ride</th>
+                                                    <th>Name</th>
+                                                    <th>Phone No</th>
+                                                    <th>Ride Type</th>
+                                                    <th>Car Type</th>
+                                                    <th>Pickup City</th>
+                                                    <th>Final Bid</th>
+                                                    <th>Drop City</th>
+                                                    <th>Final Fare</th>
+                                                    <th>Advance</th>
+                                                    <th>Pickup Date-Time</th>
+                                                    <th>Booking Date-Time</th>
+                                                    <th>Distance</th>
+                                                    <th>Duration</th>
+                                                    <th>Pickup</th>
+                                                    <th>Drop</th>
+                                                    <th>Additional Choices</th>
+                                                    <th>Additional Hault</th>
+                                                    <th>Drop Datetime</th>
+                                                    <th>Advance</th>
+                                                    <th>Vendor</th>
+                                                    <th>Bid Amount</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for booking in late_running_rides %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>
+                                                        {% if booking.ride_status == "Assigned Vendor" %}
+                                                            <a href="{% url 'customadmin:assign_driver_car' booking.final_ride_detail.id %}">Assign Car and Driver</a>
+                                                        {% elif booking.ride_status == "Assigned Car/Driver" %}
+                                                            <a href="{% url 'customadmin:start_ride' booking.final_ride_detail.id %}">Start Ride</a>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ booking.name }}</td>
+                                                    <td>{{ booking.phone_no }}</td>
+                                                    <td>{{ booking.ride_type }}</td>
+                                                    <td>{{ booking.car_type }}</td>
+                                                    <td>{{ booking.pickup_city }}</td>
+                                                    <td>{{ booking.final }}</td>
+                                                    <td>{{ booking.drop_city }}</td>
+                                                    <td>{{ booking.final_ride_fare }}</td>
+                                                    <td>{{ booking.advance }}</td>
+                                                    <td>{{ booking.pickup_datetime }}</td>
+                                                    <td>{{ booking.booking_datetime }}</td>
+                                                    <td>{{ booking.distance }} Km</td>
+                                                    <td>{{ booking.duration }} Min</td>
+                                                    <td>{{ booking.pickup }}</td>
+                                                    <td>{{ booking.drop }}</td>
+                                                    <td>{% for choice in booking.additional_choices.all %}{{ choice.name }}{% endfor %} | &ensp;</td>
+                                                    <td>{{ booking.additional_hault }}</td>
+                                                    <td>{{ booking.drop_datetime }}</td>
+                                                    <td>{{ booking.advance }}</td>
+                                                    <td><a href="{% url 'customadmin:vendor' booking.final_ride_detail.bid.vendor.id %}">{{ booking.final_ride_detail.bid.vendor }}</a></td>
+                                                    <td>{{ booking.final_ride_detail.bid.bid }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- end table-responsive -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title mb-4">Last Minute Rides</h4>
+                                        <div class="table-responsive">
+                                            <table id="datatable2" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Assign Car-Driver / Start Ride</th>
+                                                    <th>Name</th>
+                                                    <th>Phone No</th>
+                                                    <th>Ride Type</th>
+                                                    <th>Car Type</th>
+                                                    <th>Pickup City</th>
+                                                    <th>Final Bid</th>
+                                                    <th>Drop City</th>
+                                                    <th>Final Fare</th>
+                                                    <th>Advance</th>
+                                                    <th>Pickup Date-Time</th>
+                                                    <th>Booking Date-Time</th>
+                                                    <th>Distance</th>
+                                                    <th>Duration</th>
+                                                    <th>Pickup</th>
+                                                    <th>Drop</th>
+                                                    <th>Additional Choices</th>
+                                                    <th>Additional Hault</th>
+                                                    <th>Drop Datetime</th>
+                                                    <th>Advance</th>
+                                                    <th>Vendor</th>
+                                                    <th>Bid Amount</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for booking in last_minute_rides %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>
+                                                        {% if booking.ride_status == "Assigned Vendor" %}
+                                                            <a href="{% url 'customadmin:assign_driver_car' booking.final_ride_detail.id %}">Assign Car and Driver</a>
+                                                        {% elif booking.ride_status == "Assigned Car/Driver" %}
+                                                            <a href="{% url 'customadmin:start_ride' booking.final_ride_detail.id %}">Start Ride</a>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ booking.name }}</td>
+                                                    <td>{{ booking.phone_no }}</td>
+                                                    <td>{{ booking.ride_type }}</td>
+                                                    <td>{{ booking.car_type }}</td>
+                                                    <td>{{ booking.pickup_city }}</td>
+                                                    <td>{{ booking.final }}</td>
+                                                    <td>{{ booking.drop_city }}</td>
+                                                    <td>{{ booking.final_ride_fare }}</td>
+                                                    <td>{{ booking.advance }}</td>
+                                                    <td>{{ booking.pickup_datetime }}</td>
+                                                    <td>{{ booking.booking_datetime }}</td>
+                                                    <td>{{ booking.distance }} Km</td>
+                                                    <td>{{ booking.duration }} Min</td>
+                                                    <td>{{ booking.pickup }}</td>
+                                                    <td>{{ booking.drop }}</td>
+                                                    <td>{% for choice in booking.additional_choices.all %}{{ choice.name }}{% endfor %} | &ensp;</td>
+                                                    <td>{{ booking.additional_hault }}</td>
+                                                    <td>{{ booking.drop_datetime }}</td>
+                                                    <td>{{ booking.advance }}</td>
+                                                    <td><a href="{% url 'customadmin:vendor' booking.final_ride_detail.bid.vendor.id %}">{{ booking.final_ride_detail.bid.vendor }}</a></td>
+                                                    <td>{{ booking.final_ride_detail.bid.bid }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- end table-responsive -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title mb-4">Ride Details</h4>
+                                        <div class="table-responsive">
+                                            <table id="datatable3" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Name</th>
+                                                    <th>Phone No</th>
+                                                    <th>Ride Type</th>
+                                                    <th>Car Type</th>
+                                                    <th>Pickup City</th>
+                                                    <th>Final Bid</th>
+                                                    <th>Drop City</th>
+                                                    <th>Final Fare</th>
+                                                    <th>Advance</th>
+                                                    <th>Pickup Date-Time</th>
+                                                    <th>Booking Date-Time</th>
+                                                    <th>Distance</th>
+                                                    <th>Duration</th>
+                                                    <th>Pickup</th>
+                                                    <th>Drop</th>
+                                                    <th>Additional Choices</th>
+                                                    <th>Additional Hault</th>
+                                                    <th>Drop Datetime</th>
+                                                    <th>Advance</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for booking in upcoming_rides %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+
+                                                    <td>{{ booking.name }}</td>
+                                                    <td>{{ booking.phone_no }}</td>
+                                                    <td>{{ booking.ride_type }}</td>
+                                                    <td>{{ booking.car_type }}</td>
+                                                    <td>{{ booking.pickup_city }}</td>
+                                                    <td>{{ booking.final }}</td>
+                                                    <td>{{ booking.drop_city }}</td>
+                                                    <td>{{ booking.final_ride_fare }}</td>
+                                                    <td>{{ booking.advance }}</td>
+                                                    <td>{{ booking.pickup_datetime }}</td>
+                                                    <td>{{ booking.booking_datetime }}</td>
+                                                    <td>{{ booking.distance }} Km</td>
+                                                    <td>{{ booking.duration }} Min</td>
+                                                    <td>{{ booking.pickup }}</td>
+                                                    <td>{{ booking.drop }}</td>
+                                                    <td>{% for choice in booking.additional_choices.all %}{{ choice.name }}{% endfor %} | &ensp;</td>
+                                                    <td>{{ booking.additional_hault }}</td>
+                                                    <td>{{ booking.drop_datetime }}</td>
+                                                    <td>{{ booking.advance }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- end table-responsive -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+                    </div>
+                    <!-- container-fluid -->
+                </div>
+                <!-- End Page-content -->
+
+
+
+            </div>
+            <!-- end main content-->
+{% endblock content %}
+
+
+
+
+{% block extra_scripts %}
+    <!-- Required datatable js -->
+    <script src="{% static 'admin/libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'admin/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <!-- Buttons examples -->
+    <script src="{% static 'admin/libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'admin/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'admin/libs/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'admin/libs/pdfmake/build/pdfmake.min.js' %}"></script>
+    <script src="{% static 'admin/libs/pdfmake/build/vfs_fonts.js' %}"></script>
+    <script src="{% static 'admin/libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'admin/libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'admin/libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+
+    <!-- Responsive examples -->
+    <script src="{% static 'admin/libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'admin/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+    <!-- Datatable init js -->
+    <script src="{% static 'admin/js/pages/datatables.init.js' %}"></script>
+    <script>
+    $(document).ready(function() {
+        $("#datatable2").DataTable();
+        $("#datatable3").DataTable();
+    });
+    </script>
+{% endblock extra_scripts %}
+
+
+
+
+
+
+
+

@@ -1,0 +1,474 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load widget_tweaks %}
+{% load fullurl %}
+
+{% block extra_stylesheet %}
+
+<link href="{% static 'css/vendor.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
+
+{% endblock extra_stylesheet %}
+
+
+
+{% block content %}
+<div class="tj-wrapper">
+    <div class="container">
+        <div class="row">
+
+          {% include 'Vendor/vendorSidebar.html' %}
+
+                <!-- --------Begning of navigation tabs---------- -->
+                <div class="col-md-9" >
+                    <div class="col-md-12 col-sm-12 vendorHeader">
+                        <h4 class="text-center">Car Detail</h4>
+                    </div>
+                    <div class="col-sm-12 col-md-12" id="vendorTable">
+                      <div class="responsiveTable">
+                       <table>
+                           <tr>
+                              <th>S.N0.</th>
+                              <th class="setTableWidth">Car Number</th>
+                              <th>Car Type</th>
+                              <th class="setTableWidth">Owner Name</th>
+                              <th>Oprational</th>
+                              <th>Status</th>
+                              <th></th>
+                           </tr>
+                           {% for car in cars %}
+                           <tr>
+                              <td>{{ forloop.counter }}</td>
+                              <td class="setTableWidth"><a data-toggle="modal" data-target="#carInformation-{{ forloop.counter }}">{{ car.registration_no }}</a></td>
+                              <td>{{ car.car_type }}</td>
+                              <td class="setTableWidth">{{ car.owner_name }}</td>
+                               {% if car.status == 'Approved' %}
+                                  <td class="check">&#10004</td>
+                                  <td class="check">Approved</td>
+                               {% elif car.status == "Rejected" %}
+                                   <td class="cross">&#10008</td>
+                                   <td class="cross">Rejected</td>
+                               {% elif car.status == "Hold" %}
+                                   <td class="cross">&#10008</td>
+                                   <td class="wait">hold</td>
+                               {% elif car.status == "Temp Approved" %}
+                                   <td class="cross">&#10008</td>
+                                   <td class="wait">Temp Approved</td>
+                               {% endif %}
+                               <td>
+                                   <!-- <a href="{% url 'vendor:edit_car' car.id %}"> -->
+                                       <button type="button" class="btn btn-primary" onclick="location.href='{% url 'vendor:edit_car' car.id %}'">Edit</button>
+                                   <!-- </a> -->
+                                   <!-- <a href="{% url 'vendor:delete_car' car.id %}"> -->
+                                    <button type="button" class="btn btn-danger" onclick="confirm_delete('{% url 'vendor:delete_car' car.id %}')" >Delete</button>
+                                   <!-- </a> -->
+                               </td>
+                           </tr>
+                           {% endfor %}
+                       </table>
+                       </div>
+
+                         <div class="col-sm-12 booking-frm "><button class="vendorAddButton book-btn" id="show-carbtn">Add more Car +</button> </div>
+                         <div class="col-sm-8 addCarFoam">
+                            <form class="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                               <div class="foam-field">
+                                    <label>Owner Name</label>
+                                    {% render_field car_form.owner_name %}
+                                </div>
+                                <div class="errorSpace">{{ car_form.owner_name.errors }}</div>
+
+                                
+                                <div class="foam-field">
+                                    <label>Vehicle Type</label>
+                                    {% render_field car_form.car_type %}
+                                </div>
+                                    <div class="errorSpace">{{ car_form.car_type.errors }}</div>
+
+                                <div class="foam-field">
+                                    <label>Registration No</label>
+                                    {% render_field car_form.registration_no %}
+                                </div>
+                                    <div class="errorSpace">{{ car_form.registration_no.errors }}</div>
+
+                                <div class="foam-field">
+                                    <label>Upload Car photo*</label>
+                                    <div class="vendorFile uploadFile1 uploadFile2" >
+                                           {% render_field car_form.image_front %}<p class="fileUploadtext"  id="id_car-image_front-p">
+                                            <i class="far fa-file"></i> &ensp; Front Side</p>
+                                    </div>
+                                    <div class="vendorFile uploadFile1 uploadFile2" >
+                                        {% render_field car_form.image_rear %}<p class="fileUploadtext" id="id_car-image_rear-p">
+                                        <i class="far fa-file"></i> &ensp; Back side</p>
+                                    </div>
+                                </div>
+                                <div class="errorSpace">{{ car_form.image_front.errors }}</div>
+                                <div class="errorSpace">{{ car_form.image_rear.errors }}</div>
+
+
+                                <div class="foam-field">
+                                    <label>Upload RC photo*</label>
+                                    <div class="vendorFile uploadFile1 uploadFile2" >
+                                       {% render_field car_form.rc_front %}<p class="fileUploadtext" id="id_car-rc_front-p">
+                                        <i class="far fa-file"></i> &ensp; Front Side</p>
+                                    </div>
+                                    <div class="vendorFile uploadFile1 uploadFile2" >
+                                        {% render_field car_form.rc_rear %}<p class="fileUploadtext" id="id_car-rc_rear-p">
+                                        <i class="far fa-file"></i> &ensp; Back side</p>
+                                    </div>
+                                </div>
+                                    <div class="errorSpace">{{ car_form.rc_front.errors }}</div>
+                                    <div class="errorSpace">{{ car_form.rc_rear.errors }}</div>
+
+                                <div class="foam-field">
+                                    <label>RC valid upto</label>
+                                    {% render_field car_form.rc_valid_upto id="datepicker5" data-date-format="mm-dd-yyyy" readonly='true' %}
+                                   <i class="dateIcon glyphicon glyphicon-calendar"></i>
+                                </div>
+                                <div class="errorSpace">{{ car_form.rc_valid_upto.errors }}</div>
+
+                                 <div class="foam-field ">
+                                    <label>Upload Tourists Permit*</label>
+                                    <div class="vendorFile uploadFile1 uploadFile2" >
+                                        {% render_field car_form.touristpermit_front %}
+                                        <p class="fileUploadtext" id="id_car-touristpermit_front-p">
+                                         <i class="far fa-file"></i> &ensp; Front Side
+                                        </p>
+                                     </div>
+                                     <div class="vendorFile uploadFile1 uploadFile2" >
+                                         {% render_field car_form.touristpermit_rear %}<p class="fileUploadtext" id="id_car-touristpermit_rear-p">
+                                         <i class="far fa-file"></i> &ensp; Back side</p>
+                                     </div>
+                                </div>
+                                    <div class="errorSpace">{{ car_form.touristpermit_front.errors }}</div>
+                                    <div class="errorSpace">{{ car_form.touristpermit_rear.errors }}</div>
+
+
+                                <div class="foam-field">
+                                <label>Tourist Permit valid upto</label>
+                                    {% render_field car_form.touristpermit_valid_upto id="datepicker6" data-date-format="mm-dd-yyyy" readonly='true' %}
+                                    <i class="dateIcon glyphicon glyphicon-calendar"></i>
+                                </div>
+                                    <div class="errorSpace">{{ car_form.touristpermit_valid_upto.errors }}</div>
+
+                                <div class="foam-field ">
+                                    <label>Upload Permit A*</label>
+                                    <div class="vendorFile uploadFile1 uploadFile2" >
+                                         {% render_field car_form.permita_front %}<p class="fileUploadtext" id="id_car-permita_front-p">
+                                         <i class="far fa-file"></i> &ensp; Front Side</p>
+                                     </div>
+                                     <div class="vendorFile uploadFile1 uploadFile2" >
+                                         {% render_field car_form.permita_rear %}<p class="fileUploadtext" id="id_car-permita_rear-p">
+                                         <i class="far fa-file"></i> &ensp; Back side</p>
+                                     </div>
+                                </div>
+                                    <div class="errorSpace">{{ car_form.permita_front.errors }}</div>
+                                    <div class="errorSpace">{{ car_form.permita_rear.errors }}</div>
+
+
+                                <div class="foam-field ">
+                                    <label>Upload Permit B*</label>
+                                    <div class="vendorFile uploadFile1 uploadFile2" >
+                                         {% render_field car_form.permitb_front %}<p class="fileUploadtext" id="id_car-permitb_front-p">
+                                         <i class="far fa-file"></i> &ensp; Front Side</p>
+                                    </div>
+                                    <div class="vendorFile uploadFile1 uploadFile2" >
+                                         {% render_field car_form.permitb_rear %}<p class="fileUploadtext" id="id_car-permitb_rear-p">
+                                         <i class="far fa-file"></i> &ensp; Back side</p>
+                                    </div>
+                                </div>
+                                    <div class="errorSpace">{{ car_form.permitb_front.errors }}</div>
+                                    <div class="errorSpace">{{ car_form.permitb_rear.errors }}</div>
+
+                                <div class="foam-field ">
+                                    <label>Upload Insurance</label>
+                                    <div class="vendorFile">
+                                        {% render_field car_form.insurance_front %}<p class="fileUploadtext" id="id_car-insurance_front-p">
+                                        <i class="far fa-file"></i> &ensp; Drop file here</p>
+                                    </div>
+                                </div>
+                                <div class="errorSpace">{{ car_form.insurance_front.errors }}</div>
+
+                                <div class="foam-field">
+                                    <label>Insurance valid upto</label>
+                                    {% render_field car_form.insurance_valid_upto id="datepicker7" data-date-format="mm-dd-yyyy" readonly='true' %}
+                                    <i class="dateIcon glyphicon glyphicon-calendar"></i>
+                                </div>
+                                <div class="errorSpace">{{ car_form.insurance_valid_upto.errors }}</div>
+
+                                <div class="foam-field ">
+                                    <label>Upload Pollution Certificate</label>
+                                    <div class="vendorFile">
+                                        {% render_field car_form.pollution_certificate %}<p class="fileUploadtext" id="id_car-pollution_certificate-p">
+                                        <i class="far fa-file"></i> &ensp; Drop file here</p>
+                                    </div>
+                                </div>
+                                    <div class="errorSpace">{{ car_form.pollution_certificate.errors }}</div>
+
+                                    <div class="col-sm-12 booking-frm dashButton"> 
+                                    <button class="book-btn" type="submit">Update
+                                    </button>&nbsp;&nbsp;
+                                    <button class="book-btn" id="hide-carbtn" type="button">Cancel</button>
+                              </div>
+                                    </form>
+                                 </div>
+
+
+                    {% for car in cars %}
+                         <div class="modal fade" id="carInformation-{{ forloop.counter }}" role="dialog">
+                              <div class="modal-dialog" style="width:max-content;">
+                             <div class="driver-modal-content" style="width: 80vw;">
+                               <div class="modal-header">
+                               <div class="col-sm-7" style="display: block;" > 
+                                    <p>{{ car.registration_no }} Details</p>
+                                    <p>Date Of Registration: {{ car.dateofregistration|date:"j-M-Y" }}</p>
+                                </div>
+                                <div class="col-sm-5">
+                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                 </div>
+                                 <input type="hidden" name="modelid" id="ridemodalvalue">
+                               </div>
+                               <div class="driver-modal-body" style="display: block;">
+                            
+                                <!-- <div class="col-sm-12" style="display: block;" > 
+                                    <p>HR 36 AA 4608 Details</p>
+                                    <p>Date Of Registration: 24-May-2020</p>
+                                </div> -->
+                            
+                                <!-- <div class="col-sm-12" style="height: 1px; background-color: #7f7f7f; margin-top: 10px">
+
+                                </div> -->
+                                <div class="col-sm-12 modalDivider">
+                                    <h4>Front Pictures</h4>
+                                </div>
+                                <div class="col-sm-12">
+
+                                    {% if car.image_front %}
+                                    <div class="col-sm-2">
+                                        <h5>Car</h5>
+                                        <img style="width: 100%;" src="{{ car.image_front.url }}" alt="">
+                                    </div>
+                                    {% endif %}
+                                    {% if car.rc_front %}
+                                    <div class="col-sm-2">
+                                        <h5>RC</h5>
+                                        <img style="width: 100%;" src="{{ car.rc_front.url }}" alt="">
+                                    </div>
+                                {% endif %}
+                                    {% if car.touristpermit_front %}
+                                    <div class="col-sm-2">
+                                        <h5>Tourist Permit</h5>
+                                        <img style="width: 100%;" src="{{ car.touristpermit_front.url }}" alt="">
+                                    </div>
+                                {% endif %}
+                                    {% if car.permita_front %}
+                                    <div class="col-sm-2">
+                                        <h5>Permit A</h5>
+                                        <img style="width: 100%;" src="{{ car.permita_front.url }}" alt="">
+                                    </div>
+                                {% endif %}
+                                    {% if car.permitb_front %}
+                                    <div class="col-sm-2">
+                                        <h5>Permit B</h5>
+                                        <img style="width: 100%;" src="{{ car.permitb_front.url }}" alt="">
+                                    </div>
+                                {% endif %}
+                                    {% if car.insurance_front %}
+                                    <div class="col-sm-2">
+                                        <h5>Insurance</h5>
+                                        <img style="width: 100%;" src="{{ car.insurance_front.url }}" alt="">
+                                    </div>
+                                {% endif %}
+
+                                </div>
+                                <div class="col-sm-12 modalDivider" >
+                                    <h4>Rear Pictures</h4>
+                                </div>
+                                <div class="col-sm-12">
+
+                                    {% if car.image_rear %}
+                                    <div class="col-sm-2">
+                                        <h5>Car</h5>
+                                        <img style="width: 100%;" src="{{ car.image_rear.url }}" alt="">
+                                    </div>
+                                    {% endif %}
+                                    {% if car.rc_rear %}
+                                    <div class="col-sm-2">
+                                        <h5>RC</h5>
+                                        <img style="width: 100%;" src="{{ car.rc_rear.url }}" alt="">
+                                    </div>
+                                {% endif %}
+                                    {% if car.touristpermit_rear %}
+                                    <div class="col-sm-2">
+                                        <h5>Tourist Permit</h5>
+                                        <img style="width: 100%;" src="{{ car.touristpermit_rear.url }}" alt="">
+                                    </div>
+                                {% endif %}
+                                    {% if car.permita_rear %}
+                                    <div class="col-sm-2">
+                                        <h5>Permit A</h5>
+                                        <img style="width: 100%;" src="{{ car.permita_rear.url }}" alt="">
+                                    </div>
+                                {% endif %}
+                                    {% if car.permitb_rear %}
+                                    <div class="col-sm-2">
+                                        <h5>Permit B</h5>
+                                        <img style="width: 100%;" src="{{ car.permitb_rear.url }}" alt="">
+                                    </div>
+                                {% endif %}
+                                    {% if car.insurance_rear %}
+                                    <div class="col-sm-2">
+                                        <h5>Insurance</h5>
+                                        <img style="width: 100%;" src="{{ car.insurance_rear.url }}" alt="">
+                                    </div>
+                                {% endif %}
+
+                                </div>
+                                <div class="col-sm-12 modalDivider">
+                                    <h4>Others</h4>
+                                </div>
+
+                                <div class="col-sm-12">
+
+                                    {% if car.pollution_certificate %}
+                                    <div class="col-sm-2">
+                                        <h5>Pollution</h5>
+                                        <img style="width: 100%;" src="{{ car.pollution_certificate.url }}" alt="">
+                                    </div>
+                                    {% endif %}
+                                  </div>
+                               </div>
+                               <div class="modal-footer">
+                                   <!-- <a href="{% url 'vendor:edit_car' car.id %}"> -->
+                                <button type="button" class="btn btn-primary" onclick="location.href='{% url 'vendor:edit_car' car.id %}'">Edit</button>
+                                   <!-- </a> -->
+                                  <!--  <a href="{% url 'vendor:delete_car' car.id %}"> -->
+                                 <button type="button" class="btn btn-danger" onclick="confirm_delete('{% url 'vendor:delete_car' car.id %}')" >Delete</button>
+                                   <!-- </a> -->
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                               </div>
+                             </div>
+                         </div>
+                     </div>
+                         </div>
+                    {% endfor %}
+
+
+                </div>
+        </div>
+    </div>
+</div>
+<div id="BlockUIConfirm" class="BlockUIConfirm">
+    <div class="blockui-mask"></div>
+    <div class="RowDialogBody">
+        <div class="confirm-header row-dialog-hdr-success">
+            Delete Confirmtion
+        </div>
+        <div class="confirm-body">
+            Please confirm to delete data
+        </div>
+        <div class="confirm-btn-panel pull-right">
+            <div class="btn-holder pull-right">
+                <input type="button" class="row-dialog-btn btn btn-danger" value="Yes, Delete" onclick="okDelete();" />
+                <input type="button" class="row-dialog-btn btn btn-naked" value="No, Cancel" onclick="$('#BlockUIConfirm').hide();" />
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
+
+{% block extra_scripts %}
+   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+
+<script>
+    $(function () {
+        var d = new Date();
+        var current_year = d.getFullYear();
+        /////////////set age restrictions here////////////////////
+        var req_year = current_year - 18;
+        var month = d.getMonth();
+        var date = d.getDate();
+        var req_date = req_year + "/" + month + "/" + date;
+        var today_date = current_year + "/" + month + "/" + date;
+        $("#datepicker").datepicker({
+            dateformat: "yyyy-mm-dd",
+            autoclose: true,
+            todayHighlight: false,
+            endDate: req_date
+        }).datepicker('update', new Date());
+
+
+        $(function () {
+            $("#datepicker5").datepicker({
+                format: "yyyy-mm-dd",
+                autoclose: true,
+                todayHighlight: false,
+                startDate: new Date(),
+            })
+        });
+        $(function () {
+            $("#datepicker6").datepicker({
+                format: "yyyy-mm-dd",
+                autoclose: true,
+                todayHighlight: false,
+                startDate: new Date(),
+            })
+        });
+        $(function () {
+            $("#datepicker7").datepicker({
+                format: "yyyy-mm-dd",
+                autoclose: true,
+                todayHighlight: false,
+                startDate: new Date(),
+            })
+        });
+    });
+
+
+    $("#show-carbtn").click(function(){
+        $(".addCarFoam").show();
+    });
+    $("#hide-carbtn").click(function(){
+        $(".addCarFoam").hide();
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        // Function to return file name to the input field
+         $('input[type="file"]').change(function(e){
+                var fileName = e.target.files[0].name;
+                var id = e.target.id;
+                console.log(id);
+                var pfile = '#' + id + '-p';
+                $(pfile).text(fileName);
+                $(pfile).css("font-weight","600");
+        });
+    });
+
+</script>
+<script type="text/javascript">
+    //  Delete Confirmation code 
+    var delAddress;
+    function confirm_delete(temp) {
+        delAddress=temp;
+        // alert(delAddress);
+    $("#BlockUIConfirm").show();
+}
+
+function okDelete() {
+    // alert("Form would be deleted.");
+    $('#BlockUIConfirm').hide();
+    window.location.href=delAddress;
+    
+}
+</script>
+
+{% endblock extra_scripts %}

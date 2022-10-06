@@ -1,0 +1,126 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+
+{% block extra_stylesheet %}
+
+{% endblock extra_stylesheet %}
+
+
+
+{% block content %}
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0 font-size-18">Contact Us Tables</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">General</a></li>
+                                <li class="breadcrumb-item active">Contact Us Tables</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+           
+          
+          
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h4 class="card-title"> Contact-Us
+                            </h4>
+                            <p class="card-title-desc">
+                            </p>
+
+                                <table id="datatable" class="table table-bordered dt-responsive" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Phone Number</th>
+                                    <th>E-Mail Id</th>
+                                    <th>Subject</th>
+                                    <th>Message</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for enquiry in contact_us %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ enquiry.name }}</td>
+                                    <td>{{ enquiry.email }}</td>
+                                    <td>{{ enquiry.mobile }}</td>
+                                    <td>{{ enquiry.subject }}</td>
+                                    <td>{{ enquiry.message }}</td>
+                                </tr>
+                                {% endfor %}
+                               
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+
+              
+            </div> <!-- end row -->
+
+       
+                
+          
+        </div> <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+   
+</div>
+
+{% endblock content %}
+
+
+
+
+{% block extra_scripts %}
+        <!-- Required datatable js -->
+        <script src="{% static 'admin/libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'admin/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+        <!-- Buttons examples -->
+        <script src="{% static 'admin/libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+        <script src="{% static 'admin/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'admin/libs/jszip/jszip.min.js' %}"></script>
+        <script src="{% static 'admin/libs/pdfmake/build/pdfmake.min.js' %}"></script>
+        <script src="{% static 'admin/libs/pdfmake/build/vfs_fonts.js' %}"></script>
+        <script src="{% static 'admin/libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+        <script src="{% static 'admin/libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+        <script src="{% static 'admin/libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+
+        <!-- Responsive examples -->
+        <script src="{% static 'admin/libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'admin/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+        <!-- Datatable init js -->
+        <script src="{% static 'admin/js/pages/datatables.init.js' %}"></script>
+{% endblock extra_scripts %}
+
+
+
+
+
+
+
+

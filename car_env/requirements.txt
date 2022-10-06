@@ -1,0 +1,67 @@
+autopep8==1.4.4
+Babel==2.9.0 #done
+boto3==1.10.49 #done
+botocore==1.13.50 #done
+certifi==2019.3.9 #done
+cffi==1.14.4 #nt
+chardet==3.0.4 #done
+cryptography==3.3.1 #done
+defusedxml==0.6.0 #done
+diff-match-patch==20200713 #done
+dj-database-url==0.5.0 #done
+Django==2.2 #done
+django-allauth==0.39.1 #done
+django-countries==5.3.3 #done
+django-crispy-forms==1.7.2 #done
+django-debug-toolbar==1.10.1 #done
+django-filter==2.2.0 #done
+django-fullurl==1.1 #done
+django-heroku==0.3.1 #done -- here -- 
+django-import-export==2.5.0 #done
+django-model-utils==3.2.0 #done
+django-mssql==1.8 #done
+django-phone-field==1.8.0 #done
+django-phonenumber-field==4.0.0 #done
+django-storages==1.8 #done
+django-stubs==1.4.0 #not applied
+django-widget-tweaks==1.4.8 #done
+djangorestframework==3.11.0 #done
+djangorestframework-stubs==1.1.0 #done
+docutils==0.15.2 #done
+et-xmlfile==1.0.1 #done
+gunicorn==20.0.4 #done
+idna==2.8 #done
+jdcal==1.4.1 #done
+Jinja2==2.10.3 #done
+jmespath==0.10.0 #done
+MarkupPy==1.14 #done
+MarkupSafe==1.1.1 #done
+mypy==0.761 #not
+mypy-extensions==0.4.3 #done
+oauthlib==3.0.1 #done
+odfpy==1.4.1 #done
+openpyxl==3.0.6 #done
+pep8==1.7.1 #done
+pillow==8.1.0 #done
+psycopg2==2.8.6 #nt
+pycodestyle==2.5.0 #done
+pycparser==2.20 #done
+PyJWT==2.0.1 #done
+python-dateutil==2.8.1 #done
+python-decouple==3.1 #done
+python3-openid==3.1.0 #done
+pytz==2018.5 #done depenceies dj database url
+PyYAML==5.3.1 #done
+requests==2.21.0 #done 
+requests-oauthlib==1.2.0 #done
+s3transfer==0.2.1 #done
+six==1.15.0 #done
+sqlparse==0.2.4 #done dj-database-url 1.0.0
+stripe==2.27.0 #done
+tablib==3.0.0 #done
+typed-ast==1.4.2 #nt
+typing-extensions==3.7.4.3 #done
+urllib3==1.24.2 #done
+whitenoise==5.2.0 #done
+xlrd==2.0.1 #done
+xlwt==1.3.0 #done

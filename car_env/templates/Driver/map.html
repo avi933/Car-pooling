@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.1/dist/leaflet.css"
+     integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+     crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js"
+     integrity="sha256-NDI0K41gVbWqfkkaHj15IzU7PtMoelkzyKp8TOaFQ3s="
+     crossorigin=""></script>
+     <link rel="stylesheet" href="./css/bootstrap.min.css">
+     <link rel="stylesheet" href="./css/bootstrap-theme.min.css">
+     <style>
+        #map { height: 500px; width:auto;}
+
+        .row-centered {
+        text-align:center;
+        margin:0 auto;
+    }
+    .col-centered {
+        display:block;
+        float:none;
+    }
+    .pos {
+        position: relative;
+        top: 10px;
+    }
+        
+
+     </style>
+
+
+</head>
+<body>
+    
+
+
+    <div class="container">
+        <div class="row row-centered pos">
+            <div class="col-lg-8 col-xs-12 col-centered">
+                <div><h1>Hello yo boy,viewing , from maps dot html</h1></div>
+                <div id = 'map' > </div>
+            </div>
+        </div>
+
+    </div>
+<hr>
+<br>
+
+
+    <label for="pick_up">Pick Up:</label>
+    <input type="text" id="pick_up" name="pick_up">
+    <button onclick="toset='pick_up'">set pick up</button><br><br>
+    <label for="drop_off">Drop Off:</label>
+    <input type="text" id="drop_off" name="drop_off">
+    <button onclick="toset='drop_off'">set drop off</button> <br><br> 
+
+    <label for="Distance">Distance in km</label>
+    <input type="text" id="distance" name="distance"> <br><br>
+    <label for="price">Estimated Price:</label>
+    <input type="text" id="price" name="price"> <br><br>
+    
+<script>
+
+var toset = "pick_up"
+
+var url = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
+var attr = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  osm = L.tileLayer(url, {
+    maxZoom: 18,
+    attribution: attr
+  });
+
+
+// initialize the map 
+var map = L.map('map').setView([-20.082267541368477,57.60715521428317], 12).addLayer(osm);
+
+// ////////region with additional fee /////////
+var circle = L.circle([-20.110437124925095, 57.71898834623193], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 700
+}).addTo(map);
+
+// click event
+map.on('click', onMapClick);
+var toset = "pick_up"
+var x1,x2,y1,y2
+
+
+// markers storage
+var markers = [];
+
+// Script for adding marker on map click
+function onMapClick(e) {
+
+  var geojsonFeature = {
+    "type": "Feature",
+    "properties": {},
+    "geometry": {
+      "type": "Point",
+      "coordinates": [e.latlng.lat, e.latlng.lng]
+    }
+    
+  }
+  pick_up_cordi = geojsonFeature["geometry"]["coordinates"] 
+  pick_up_x = geojsonFeature["geometry"]["coordinates"][0]
+  pick_up_y = geojsonFeature["geometry"]["coordinates"][1]
+
+  input_field = document.getElementById(toset)
+  input_field.value = pick_up_cordi
+  if(toset=='pick_up'){
+    x1=pick_up_x 
+    y1=pick_up_y
+  }
+  else{
+    x2 = pick_up_x
+    y2=pick_up_y
+  }
+Dis_in_km = distance(x1, y1, x2, y2,"K")
+distance_text = document.getElementById("distance")
+distance_text.value = Dis_in_km
+
+cal_price = price(Dis_in_km)
+price_text = document.getElementById("price")
+price_text.value = cal_price
+
+  // remove previous marker
+  if (markers.length > 0) {
+    map.removeLayer(markers.pop());
+  }
+  var marker;
+
+  L.geoJson(geojsonFeature, {
+
+    pointToLayer: function(feature, latlng) {
+
+      marker = L.marker(e.latlng, {
+
+        title: "Resource Location",
+        alt: "Resource Location",
+        riseOnHover: true,
+        draggable: true,
+
+      });
+      markers.push(marker)
+
+      return marker;
+    }
+  }).addTo(map);
+}
+
+// ////////////////////Calculate Distance /////////////////////////////////////////
+function distance(lat1, lon1, lat2, lon2, unit) {
+    if ((lat1 == lat2) && (lon1 == lon2)) {
+        return 0;
+    }
+    else {
+        var radlat1 = Math.PI * lat1/180;
+        var radlat2 = Math.PI * lat2/180;
+        var theta = lon1-lon2;
+        var radtheta = Math.PI * theta/180;
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        if (dist > 1) {
+            dist = 1;
+        }
+        dist = Math.acos(dist);
+        dist = dist * 180/Math.PI;
+        dist = dist * 60 * 1.1515;
+        if (unit=="K") { dist = dist * 1.609344 }
+        if (unit=="N") { dist = dist * 0.8684 }
+        return dist.toFixed(2);
+    }
+}
+// /////////////////////Calculate the Price//////////////////////////
+function price(dis){
+  est_price = dis * 50
+  return (est_price.toFixed(2))
+}
+/////////////////no additional fee ////////////////////////////////
+
+function isMarkerInsidePolygon(marker, poly) {
+    var inside = false;
+    var x = marker.getLatLng().lat, y = marker.getLatLng().lng;
+    for (var ii=0;ii<poly.getLatLngs().length;ii++){
+        var polyPoints = poly.getLatLngs()[ii];
+        for (var i = 0, j = polyPoints.length - 1; i < polyPoints.length; j = i++) {
+            var xi = polyPoints[i].lat, yi = polyPoints[i].lng;
+            var xj = polyPoints[j].lat, yj = polyPoints[j].lng;
+
+            var intersect = ((yi > y) != (yj > y))
+                && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+    }
+
+    return inside;
+};
+
+////////////////////get current location for pick up/////////////////
+var x = document.getElementById("pick_up");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.value = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.value = position.coords.latitude + "," + position.coords.longitude;
+}
+getLocation()
+
+    </script>
+</body>
+</html>

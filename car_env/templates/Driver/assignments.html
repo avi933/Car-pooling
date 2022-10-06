@@ -1,0 +1,235 @@
+
+
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load fullurl %}
+{% block extra_stylesheet %}
+<link href="{% static 'css/vendor.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    .card-collapse > div > div > div{
+    background-image: linear-gradient(#fa9c9c, #fa9c9c);
+    }
+</style>
+{% endblock extra_stylesheet %}
+{% block content %}
+<div class="tj-wrapper">
+    <div class="container">
+        <div class="row">
+            {% include 'Driver/vendorSidebar.html' %}
+            <!-- --------Begning of navigation tabs---------- -->
+            <div class="col-md-9 assignments">
+                <div class="col-md-12 col-sm-12 vendorHeader">
+                    <h4 class="text-center">Assignments</h4>
+                </div>
+                {% for ride in final_rides %}
+                <div>
+                    <div class="col-sm-12 col-md-12">
+                        <div class="col-sm-1" class="listNumber">
+                            <h4>{{ forloop.counter }}</h4>
+                        </div>
+                        <div class="col-sm-4 heading">
+                            <a data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                <h4>
+                                    <span class="from">{{ ride.booking.pickup_city }}</span>
+                                    To
+                                    <span class="to">{{ ride.booking.pickup_city }}</span>
+                                </h4>
+                            </a>
+                            <h5 class="headingId">
+                                Booking Id: <span class="bookingId">{{ ride.booking.id }}</span>
+                            </h5>
+                            <h5 class="heading-type">
+                                {{ ride.booking.ride_type }}/ <span>{{ ride.booking.car_type }}</span>
+                            </h5>
+                            <h5>Night Pick Allowance {% if ride.booking.early_pickup_charges %}<span class="nightPickAllowance check">&nbsp;&nbsp;&nbsp;<i class="fas fa-times"></i></span>{% else %}<span class="nightPickAllowance cross">&nbsp;&nbsp;&#10004</span>{% endif %}</h5>
+                            <h5>Night Drop Allowance {% if ride.booking.late_drop_charges %}<span class="nightDropAllowance check">&nbsp;&nbsp;&nbsp;<i class="fas fa-times"></i></span>{% else %}<span class="nightDropAllowance cross">&nbsp;&nbsp;&#10004</span>{% endif %}</h5>
+                            <h5>Driver Allowance {% if ride.booking.night_charges %}<span class="driverAllowance cross">&nbsp;&nbsp;&nbsp;<i class="fas fa-times"></i></span>{% else %}<span class="driverAllowance check">&nbsp;&nbsp;&#10004</span>{% endif %}</h5>
+                            <h5>Toll Tax Included <span class="driverAllowance check">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10004</span></h5>
+                            <h5>Sales Tax Included <span class="driverAllowance check">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#10004</span></h5>
+                        </div>
+                        <div class="col-sm-7 right-info">
+                            <div class="col-sm-5 date-labels">
+                                <h4>
+                                    <span>Start Trip</span>
+                                </h4>
+                            </div>
+                            <div class="col-sm-7 labels-data">
+                                <h4>
+                                    <img src="{% static 'images/icons/Assignment-inactive.png' %}" alt="" width="10%">
+                                    <span>{{ ride.booking.pickup_datetime|date:"j-M-Y, l" }}</span>
+                                </h4>
+                                <h4 style="margin-top: 0px; ">
+                                    <img src="{% static 'images/icons/Assignment-inactive.png' %}" alt="" width="10%">
+                                    <span>{{ ride.booking.pickup_datetime|time:"h:i A" }}</span>
+                                </h4>
+                            </div>
+                            <div class="col-sm-5 date-labels">
+                                <h4 style="margin-top: 0px;">
+                                    <span>End Trip</span>
+                                </h4>
+                            </div>
+                            <div class="col-sm-7 labels-data">
+                                <h4 style="margin-top: 0px; ">
+                                    <img src="{% static 'images/icons/Assignment-inactive.png' %}" alt="" width="10%"> <span class="date">{{ ride.booking.drop_datetime|date:"j-M-Y, l" }}</span>
+                                </h4>
+                                <h4 style="margin-top: 0px; ">
+                                    <img src="{% static 'images/icons/Assignments-inactive.png' %}" alt="" width="10%"> <span class="time">{{ ride.booking.drop_datetime|time:"h:i A" }}</span>
+                                </h4>
+                                <div>
+                                    <h4>
+                                        <img src="{% static 'images/icons/Car-details--inactive.png' %}" alt=""  width="10%">
+                                        <span style="font-weight: 600;">KM Limit : {{ ride.booking.distance }}</span>
+                                        <small style="visibility: visible;"> km</small><br>
+                                        <small style="visibility: visible;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Extra km Charges: Rs10/-</small>
+                                    </h4>
+                                </div>
+                                <h5>
+                                    <img src="{% static 'images/icons/Payment-inactive.png' %}" alt="" width="10%">Booking Amount <br>
+                                    <span>{{ ride.bid.bid }}</span>
+                                </h5>
+                                <h5>
+                                    <img src="{% static 'images/icons/Payment-inactive.png' %}" alt="" width="10%">Driver Collection Amount <br>
+                                    <span>{{  ride.driver_collect_amount }}</span>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+                        <hr style="height : 10px">
+                    </div>
+                    <div class="col-sm-12 col-md-12 cardGreyStyle ml-5" >
+                        <div class="col-sm-4">
+                            <h5 class="boldBlack">Pickup Location</h5>
+                            <h5>{{ ride.booking.pickup }}</h5>
+                        </div>
+                        <div class="col-sm-4">
+                            <h5 class="boldBlack">Drop Location</h5>
+                            <h5>{{ ride.booking.drop }}</h5>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 specialreq">
+                        <h4>Special Requirements</h4>
+                        {% for choice in ride.booking.additional_choices.all %}
+                        <div class="col-sm-4">
+                            <span><span class="check">&#10004 </span>{{ choice.name }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-sm-12 col-md-12 car-driver"  style="padding: 0px;padding-left: 30px;">
+                        <div>
+                            <small style="visibility: visible; color: red;">* Note {{ ride.booking.note }}</small>
+                        </div>
+                        <h5>
+                            <div class="row">
+                                <div class="col-sm-4 noPadding1"><span class="cngAllowed">
+                                    <img src="{% static 'images/fleet-carousel-img3.png' %}" alt="" width="20%"> CNG Allowed
+                                    </span>
+                                </div>
+                                <div class="col-sm-4 noPadding1">
+                                    <span class="dieselAllowed">
+                                    <img src="{% static 'images/fleet-carousel-img3.png' %}" alt="" width="20%"> Diesel Only</span>
+                                </div>
+                                <div class="col-sm-4 noPadding1">
+                                    <span class="electricAllowed">
+                                    <img src="{% static 'images/fleet-carousel-img3.png' %}" alt="" width="20%"> Electric Allowed</span>
+                                </div>
+                            </div>
+                        </h5>
+                        <div style="height: 20px">
+                            <hr style="height : 10px">
+                        </div>
+                        <div class="col-sm-12 col-md-12" style="padding: 0px;">
+                            <div class="heading">
+                                <h4><span>
+                                    <img src="{% static 'images/icons/Assignments-inactive.png' %}" alt="" width="5%"> Assigned Car and Driver</span>
+                                </h4>
+                            </div>
+                            <form action="{% url 'vendor:assign_car_driver' ride.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="col-sm-12 options">
+                                    <div class="col-sm-4">
+                                        <h5>Select car</h5>
+                                        <select name="car" class="form-control" id="id_car" style="width: 80%" required>
+                                            {% if ride.car %}
+                                            <option value="{{ ride.car.id }}" selected="">{{ ride.car.car_type }} ({{ ride.car.registration_no }})</option>
+                                            {% else %}
+                                            <option value="" selected="">Select a Car</option>
+                                            {% endif %}
+                                            {% for car in ride.bid.vendor.get_approved_cars %}
+                                            <option value="{{ car.id }}">{{ car.car_type }} ({{ car.registration_no }})</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <h5>Select Driver</h5>
+                                        <select name="driver" class="form-control" id="id_driver" style="width: 80%" required >
+                                            {% if ride.driver %}
+                                            <option value="{{ ride.driver.id }}" selected="">{{ ride.driver.full_name }} ({{ ride.driver.contact1 }})</option>
+                                            {% else %}
+                                            <option value="" selected="">Select a Driver</option>
+                                            {% endif %}
+                                            {% for driver in ride.bid.vendor.get_approved_drivers %}
+                                            <option value="{{ driver.id }}">{{ driver.full_name }} ({{ driver.contact1 }})</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3 booking-frm">
+                                        <button class="book-btn" type="submit" style="padding-top: 8px; padding-bottom: 8px; margin-top: 22px;">{% if ride.car and ride.driver %}Edit Details{% else %}Assign{% endif %}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    {% if ride.car or ride.driver %}
+                    {% else %}
+                    <div class="col-sm-12 col-md-12 buttons"  style="padding: 0px;padding-top: 20px;">
+                        <div class="col-sm-3 booking-frm">
+                            <button class="book-btn" type="submit" data-toggle="collapse" data-target="#collapseExample-{{ ride.id }}" aria-expanded="false" aria-controls="collapseExample12">Reject</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 card-collapse">
+                        <form method="post" action="{% url 'vendor:reject_assignment' ride.id %}">
+                            {% csrf_token %}
+                            <div class="collapse" id="collapseExample-{{ ride.id }}">
+                                <div class="card card-body" style="padding: 20px;">
+                                    <div class="row">
+                                        <input type="radio" name="rejection_reason" value="Car is not Available">
+                                        <label for="Car is not Available">Car is not Available</label><br>
+                                    </div>
+                                    <div class="row">
+                                        <input type="radio" name="rejection_reason" value="Booking amount is less">
+                                        <label for="Car is not Available">Booking amount is less</label><br>
+                                    </div>
+                                    <div class="row">
+                                        <input type="radio" name="rejection_reason" value="Unavoidable conditions">
+                                        <label for="Car is not Available">Unavoidable conditions</label><br>
+                                    </div>
+                                    <div class="row">
+                                        <input type="radio" name="rejection_reason" value="Unavoidable conditions">
+                                        <label for="Car is not Available">Other Reasons</label><br>
+                                    </div>
+                                    <div class="row">
+                                        <textarea name="rejection_reason" id="" cols="30" rows="10" style="width:-webkit-fill-available;"></textarea>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3 booking-frm">
+                                            <button class="book-btn" type="submit" style="padding: 0px auto;">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block extra_scripts %}
+{% endblock extra_scripts %}
+

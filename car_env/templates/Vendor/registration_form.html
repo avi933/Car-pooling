@@ -1,0 +1,830 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load fullurl %}
+{% load widget_tweaks %}
+{% block extra_stylesheet %}
+<link href="{% static 'css/vendor.css' %}" rel="stylesheet">
+{#<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />#}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
+<style>
+   
+</style>
+{% endblock extra_stylesheet %}
+{% block content %}
+<div class="container" style="display: grid;">
+   <div class="row">
+      <form method="post" id="vendorMain" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="col-sm-12 vendorfrm">
+         <h3> Vendor Registration </h3>
+      </div>
+      <div class="col-sm-12 col-md-12">
+         <ul class="customer-tab col-sm-12">
+            <li class="col-sm-4 headerWidth active headerAlign" id="vendorTb" >
+               <a href="#vendorInformation" data-toggle="tab" style="text-decoration: none;">Vendor Information <span class="errorCount">{{ profile_form.errors.count }}</span></a>
+            </li>
+            <li class="col-sm-4 headerWidth" id="carTb" style="text-align: center;">
+               <a href="#carDetails" data-toggle="tab" style="text-decoration: none;">Car Details <span class="errorCount">{{ car_form.errors.count }}</span></a>
+            </li>
+            <li class="col-sm-4 headerWidth" id="driverTb" style="text-align: center;">
+               <a href="#driverDetails " data-toggle="tab" style="text-decoration: none;">Driver Details <span class="errorCount">{{ driver_form.errors.count }}</span></a>
+            </li>
+         </ul>
+         <!------togable Content pannel start-------->
+         <div class="tab-content" >
+            <div class="tab-pane active" id="vendorInformation">
+               <div class="col-sm-7" id="vendorCheck">
+                  {% for error in profile_form.non_field_errors %}
+                  <div class="errorSpace">{{ error }}</div>
+                  {% endfor %}
+                  <div class="foam-field">
+                     <label>Full Name*</label>
+                     {% render_field profile_form.full_name %}
+                  </div>
+                  <div class="errorSpace">{{ profile_form.full_name.errors }}</div>
+                  <!-- <div class="foam-field">
+                     <label>Father's Name</label>
+                     {% render_field profile_form.father_name %}
+                  </div> -->
+                  <div class="errorSpace">{{ profile_form.father_name.errors }}</div>
+                  <div class="foam-field">
+                     <label>Date Of Birth</label>
+                     {% render_field profile_form.dob id="datepicker1" readonly='true' %}
+                     <i class="dateIcon glyphicon glyphicon-calendar"></i>
+                  </div>
+                  <div class="errorSpace">{{ profile_form.dob.errors }}</div>
+                  <div class="foam-field">
+                     <label>Email address*</label>
+                     {% render_field profile_form.email %}
+                  </div>
+                  <div class="errorSpace">{{ profile_form.email.errors }}</div>
+                  <div class="foam-field">
+                     <label>Phone No 1*</label>
+                     {% render_field profile_form.contact1 pattern="[1-9]{1}[0-9]{9}"%}
+                  </div>
+                  <div class="errorSpace">{{ profile_form.contact1.errors }}</div>
+                  <div class="foam-field">
+                     <label>Phone No 2</label>
+                     {% render_field profile_form.contact2 pattern="[1-9]{1}[0-9]{9}" %}
+                  </div>
+                  <div class="errorSpace">{{ profile_form.contact2.errors }}</div>
+                  <div class="foam-field">
+                     <label>Address*</label>
+                     {% render_field profile_form.address rows="3" cols="50" %}
+                     {#<textarea rows="3" cols="50" name="comment" form="usrform"></textarea>#}
+                  </div>
+                  <div class="errorSpace">{{ profile_form.address.errors }}</div>
+                  <div class="foam-field">
+                     <label style="width: 46%;color: black;font-weight: 800;">    KYC Proof*</label>
+                  </div>
+                  <div class="foam-field ">
+                     <label>NIC front View*</label>
+                     <div class="vendorFile">
+                        {% render_field profile_form.NIC_front placeholder="NIC Front"  %}
+                        <p class="fileUploadtext" id="id_vendor-NIC_front-p">
+                           <i class="far fa-file"></i> &ensp; NIC_front
+                        </p>
+                     </div>
+                  </div>
+                  <div class="errorSpace">{{ profile_form.NIC_front.errors }}</div>
+                  <div class="errorSpace">{{ profile_form.NIC_front.errors }}</div>
+                  <div class="errorSpace">{{ profile_form.driving_licence_front.errors }}</div>
+                  <div class="errorSpace">{{ profile_form.votercard_front.errors }}</div>
+                  <div class="errorSpace">{{ profile_form.votercard_rear.errors }}</div>
+                  <div class="foam-field">
+                     <label>Driving Licence</label>
+                     <div class="vendorFile uploadFile1 uploadFile2" >
+                        {% render_field profile_form.driving_licence_front placeholder="Front" %}
+                        <p class="fileUploadtext" id="id_vendor-driving_licence_front-p">
+                           <i class="far fa-file"></i> &ensp; Front Side
+                        </p>
+                     </div>
+                     <div class="vendorFile uploadFile1 uploadFile2" >
+                        {% render_field profile_form.driving_licence_rear placeholder="Back" %}
+                        <p class="fileUploadtext" id="id_vendor-driving_licence_rear-p">
+                           <i class="far fa-file"></i> &ensp; Back side
+                        </p>
+                     </div>
+                  </div>
+                  <div class="errorSpace">{{ profile_form.driving_licence_front.errors }}</div>
+                  <div class="errorSpace">{{ profile_form.driving_licence_rear.errors }}</div>
+                  <div class="foam-field">
+                     <label>Do You have a Company?</label>
+                     <select name="subject" id="companyDetails">
+                        <option Selected>--Select--</option>
+                        <option value="0">No</option>
+                        <option value="1" id="Yes">Yes</option>
+                     </select>
+                  </div>
+                  <!-- //////if Yes is selected///////// -->
+                  <div style="display: none;" id="yesDisplay">
+                     <div class="foam-field">
+                        <label style="color: #e61616;">Company Name*</label>
+                        {% render_field profile_form.company_name %}
+                     </div>
+                     <div class="errorSpace">{{ profile_form.full_name.errors }}</div>
+                     <div class="foam-field">
+                        <label style="color: #e61616;">GST NUMBER*</label>
+                        {% render_field profile_form.gst_no %}
+                     </div>
+                     <div class="errorSpace">{{ profile_form.full_name.errors }}</div>
+                  </div>
+                  <!-- //////////////////////////////// -->
+                  <div class="foam-field booking-frm">
+                     <label style="width: 46%;color: black;font-weight: 800;">    Bank Details*</label>
+                  </div>
+                  <div>
+                     <!-- start of default/first Bank details -->
+                     <div>
+                        <div class="foam-field">
+                           <label>Account Holder Name</label>
+                           {% render_field bank_form.account_holder_name %}
+                        </div>
+                        <div class="errorSpace">{{ bank_form.account_holder_name.errors }}</div>
+                        <div class="foam-field">
+                           <label>Bank Account Number*</label>
+                           {% render_field bank_form.account_no pattern="[0-9]{8,18}" type="text" %}
+                        </div>
+                        <div class="errorSpace">{{ bank_form.account_no.errors }}</div>
+                        <div class="foam-field">
+                           <label>Saving/ Current</label>
+                           {% render_field bank_form.account_type %}
+                        </div>
+                        <div class="errorSpace">{{ bank_form.account_type.errors }}</div>
+                        <div class="foam-field">
+                           <label>Bank Name*</label>
+                           {% render_field bank_form.bank_name %}
+                        </div>
+                        <div class="errorSpace">{{ bank_form.bank_name.errors }}</div>
+                        
+                        <div class="foam-field">
+                           <label>Bank Address</label>
+                           {% render_field bank_form.bank_address %}
+                        </div>
+                        <div class="errorSpace">{{ bank_form.bank_address.errors }}</div>
+                     </div>
+                     <div></div>
+                     <div></div>
+                  </div>
+                  {% comment %}
+                  <div style="text-align: right;" >
+                     <input type="checkbox" name="terms" id="terms" required>
+                     <label> I accept <a href="{% url 'core:terms&conditions' %}"> terms & conditions </a> </label>
+                  </div>
+                  {% endcomment %}
+               </div>
+               <div class="col-sm-5 col-md-5" style="margin-top: 24px;">
+                  <div class="drag-drop" style="text-align: center;">
+                     {% render_field profile_form.image class="input-file" onchange="readURL(this);" %}
+                     <img id="blah" src="" alt="" />
+                     <p class="p23">
+                        <i style="margin-top: 10px;color: #e6e3e3;" class="fas fa-cloud-upload-alt fa-4x">
+                        </i><br> Drag&Drop files here <br> or<br>
+                        <button type="button" class="btn btn-outline-primary">Browse Files</button>
+                     </p>
+                     <div class="label-right-allign" style="text-align: center;">
+                        Select your profile image<br>
+                        <p style="font-size: x-small;color: #e61616;font-style: italic;"> Size must be 200KB </p>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-12 booking-frm buttonallign" style=" text-align: -webkit-center; margin-top : 40px">
+                  <div style="display: flex;width:fit-content;">
+                     <button href="#carDetails" id="navToCar" title="Please fill in all Required fields followed by (*) to proceed further " data-toggle="tab" class="book-btn" type="button" disabled="true">Next</button>
+                     &nbsp;&nbsp;
+                  </div>
+                  <br>
+               </div>
+            </div>
+            <div class="tab-pane" id="carDetails" role="tabpanel">
+               <div class="col-sm-5">
+                  {% for error in profile_form.non_field_errors %}
+                  <div class="errorSpace">{{ error }}</div>
+                  {% endfor %}
+                  <div class="carTypeHeader">
+                     <div class="foam-field">
+                        <label>Total 4 Seater</label>
+                        {% render_field profile_form.total_4_seater %}
+                     </div>
+                     <div class="errorSpace">{{ profile_form.total_4_seater.errors }}</div>
+                     <div class="foam-field">
+                        <label>Total 7 Seater</label>
+                        {% render_field profile_form.total_7_seater %}
+                     </div>
+                     <div class="errorSpace">{{ profile_form.total_7_seater.errors }}</div>
+                     <div class="foam-field">
+                        <label>Total 15 Seater</label>
+                        {% render_field profile_form.total_15_seater %}
+                     </div>
+                     <div class="errorSpace">{{ profile_form.total_15_seater.errors }}</div>
+                  </div>
+               </div>
+               <div class="col-sm-12 col-md-12 middleHeading">
+                  <h4>*Share Details of any Vehicle</h4>
+               </div>
+               <br>
+               <div class="col-sm-7">
+                  <div class="foam-field">
+                     <label>Owner Name*</label>
+                     {% render_field car_form.owner_name %}
+                  </div>
+                  <div class="errorSpace">{{ car_form.owner_name.errors }}</div>
+                  
+                  <div class="foam-field">
+                     <label>Vehicle Type</label>
+                     {% render_field car_form.car_type %}
+                  </div>
+                  <div class="errorSpace">{{ car_form.car_type.errors }}</div>
+                  <div class="foam-field">
+                     <label>Registration No*</label>
+                     {% render_field car_form.registration_no %}
+                  </div>
+                  <div class="errorSpace">{{ car_form.registration_no.errors }}</div>
+                  <div class="foam-field">
+                     <label>Upload Car photo*</label>
+                     <div class="vendorFile uploadFile1 uploadFile2" >
+                        {% render_field car_form.image_front %}
+                        <p class="fileUploadtext"  id="id_car-image_front-p">
+                           <i class="far fa-file"></i> &ensp; Front Side
+                        </p>
+                     </div>
+                     <div class="vendorFile uploadFile1 uploadFile2" >
+                        {% render_field car_form.image_rear %}
+                        <p class="fileUploadtext" id="id_car-image_rear-p">
+                           <i class="far fa-file"></i> &ensp; Back side
+                        </p>
+                     </div>
+                  </div>
+                  <div class="errorSpace">{{ car_form.image_front.errors }}</div>
+                  <div class="errorSpace">{{ car_form.image_rear.errors }}</div>
+                  <div class="foam-field">
+                     <label>Upload RC photo*</label>
+                     <div class="vendorFile uploadFile1 uploadFile2" >
+                        {% render_field car_form.rc_front %}
+                        <p class="fileUploadtext" id="id_car-rc_front-p">
+                           <i class="far fa-file"></i> &ensp; Front Side
+                        </p>
+                     </div>
+                     <div class="vendorFile uploadFile1 uploadFile2" >
+                        {% render_field car_form.rc_rear %}
+                        <p class="fileUploadtext" id="id_car-rc_rear-p">
+                           <i class="far fa-file"></i> &ensp; Back side
+                        </p>
+                     </div>
+                  </div>
+                  <div class="errorSpace">{{ car_form.rc_front.errors }}</div>
+                  <div class="errorSpace">{{ car_form.rc_rear.errors }}</div>
+                  <div class="foam-field">
+                     <label>RC valid upto*</label>
+                     {% render_field car_form.rc_valid_upto id="datepicker5" data-date-format="mm-dd-yyyy" readonly='true' %}
+                     {#                                    <input type="date" id="datepicker5" data-date-format="mm-dd-yyyy" readonly />#}
+                     <i class="dateIcon glyphicon glyphicon-calendar"></i>
+                  </div>
+                  <div class="errorSpace">{{ car_form.rc_valid_upto.errors }}</div>
+                  <div class="foam-field ">
+                     <label>Upload Tourists Permit*</label>
+                     <div class="vendorFile uploadFile1 uploadFile2" >
+                        {% render_field car_form.touristpermit_front %}
+                        <p class="fileUploadtext" id="id_car-touristpermit_front-p">
+                           <i class="far fa-file"></i> &ensp; Front Side
+                        </p>
+                     </div>
+                     <div class="vendorFile uploadFile1 uploadFile2" >
+                        {% render_field car_form.touristpermit_rear %}
+                        <p class="fileUploadtext" id="id_car-touristpermit_rear-p">
+                           <i class="far fa-file"></i> &ensp; Back side
+                        </p>
+                     </div>
+                  </div>
+                  <div class="errorSpace">{{ car_form.touristpermit_front.errors }}</div>
+                  <div class="errorSpace">{{ car_form.touristpermit_rear.errors }}</div>
+                  <div class="foam-field">
+                     <label>Tourist Permit valid upto*</label>
+                     {% render_field car_form.touristpermit_valid_upto id="datepicker6" data-date-format="mm-dd-yyyy" readonly='true' %}
+                     <i class="dateIcon glyphicon glyphicon-calendar"></i>
+                  </div>
+                  <div class="errorSpace">{{ car_form.touristpermit_valid_upto.errors }}</div>
+                  <div class="foam-field ">
+                     <label>Upload Permit A*</label>
+                     <div class="vendorFile uploadFile1 uploadFile2" >
+                        {% render_field car_form.permita_front %}
+                        <p class="fileUploadtext" id="id_car-permita_front-p">
+                           <i class="far fa-file"></i> &ensp; Front Side
+                        </p>
+                     </div>
+                     <div class="vendorFile uploadFile1 uploadFile2" >
+                        {% render_field car_form.permita_rear %}
+                        <p class="fileUploadtext" id="id_car-permita_rear-p">
+                           <i class="far fa-file"></i> &ensp; Back side
+                        </p>
+                     </div>
+                  </div>
+                  <div class="errorSpace">{{ car_form.permita_front.errors }}</div>
+                  <div class="errorSpace">{{ car_form.permita_rear.errors }}</div>
+                  <div class="foam-field ">
+                     <label>Upload Permit B*</label>
+                     <div class="vendorFile uploadFile1 uploadFile2" >
+                        {% render_field car_form.permitb_front %}
+                        <p class="fileUploadtext" id="id_car-permitb_front-p">
+                           <i class="far fa-file"></i> &ensp; Front Side
+                        </p>
+                     </div>
+                     <div class="vendorFile uploadFile1 uploadFile2" >
+                        {% render_field car_form.permitb_rear %}
+                        <p class="fileUploadtext" id="id_car-permitb_rear-p">
+                           <i class="far fa-file"></i> &ensp; Back side
+                        </p>
+                     </div>
+                  </div>
+                  <div class="errorSpace">{{ car_form.permitb_front.errors }}</div>
+                  <div class="errorSpace">{{ car_form.permitb_rear.errors }}</div>
+                  <div class="foam-field ">
+                     <label>Upload Insurance*</label>
+                     <div class="vendorFile">
+                        {% render_field car_form.insurance_front %}
+                        <p class="fileUploadtext" id="id_car-insurance_front-p">
+                           <i class="far fa-file"></i> &ensp; Drop file here
+                        </p>
+                     </div>
+                  </div>
+                  <div class="errorSpace">{{ car_form.insurance_front.errors }}</div>
+                  <div class="foam-field">
+                     <label>Insurance valid upto*</label>
+                     {% render_field car_form.insurance_valid_upto id="datepicker7" data-date-format="mm-dd-yyyy" readonly='true' %}
+                     <i class="dateIcon glyphicon glyphicon-calendar"></i>
+                  </div>
+                  <div class="errorSpace">{{ car_form.insurance_valid_upto.errors }}</div>
+                 
+               </div>
+               <div class="col-sm-12 booking-frm buttonallign">
+                  <div style="display: flex;width:fit-content;">
+                     <button style="background-color: #7f7f7f;" id="backToVendor" href="#vendorInformation" data-toggle="tab" class="book-btn" type="button">Back</button>&nbsp;&nbsp;
+                     <button class="book-btn" id="navToDriver" title="Please fill in all Required fields followed by (*) to proceed further " href="#driverDetails" data-toggle="tab" type="button" disabled="true">Next</button><br>
+                  </div>
+                  <br>
+               </div>
+            </div>
+            <div class="tab-pane" id="driverDetails" role="tabpanel">
+               <div>
+                  <input type="checkbox" name="same" value=1>
+                  <label for="">Is Vendor/Driver same</label>
+                  <p class="vendorMessage">Please upload all below documents*</p>
+               </div>
+               <div class="col-sm-7">
+                  {% for error in driver_form.non_field_errors %}
+                  <div class="errorSpace">{{ error }}</div>
+                  {% endfor %}
+                  <div class="foam-field">
+                     <label>Full Name*</label>
+                     {% render_field driver_form.full_name %}
+                  </div>
+                  <div class="errorSpace">{{ driver_form.full_name.errors }}</div>
+                  
+                  <div class="foam-field">
+                     <label>Date Of Birth</label>
+                     {% render_field driver_form.dob id="datepicker4" data-date-format="mm-dd-yyyy" readonly='true' %}
+                     <i class="dateIcon glyphicon glyphicon-calendar"></i>
+                  </div>
+                  <div class="errorSpace">{{ driver_form.dob.errors }}</div>
+                  <div class="foam-field">
+                     <label>Email address*</label>
+                     {% render_field driver_form.email %}
+                  </div>
+                  <div class="errorSpace">{{ driver_form.email.errors }}</div>
+                  <div class="foam-field">
+                     <label>Phone No 1*</label>
+                     {% render_field driver_form.contact1 pattern="[1-9]{1}[0-9]{7}"%}
+                  </div>
+                  <div class="errorSpace">{{ driver_form.contact1.errors }}</div>
+                  <div class="foam-field">
+                     <label>Phone No 2</label>
+                     {% render_field driver_form.contact2 pattern="[1-9]{1}[0-9]{7}"%}
+                  </div>
+                  <div class="errorSpace">{{ driver_form.contact2.errors }}</div>
+                  <div class="foam-field">
+                     <label>Address*</label>
+                     {% render_field driver_form.address %}
+                  </div>
+                  <div class="errorSpace">{{ driver_form.address.errors }}</div>
+                  <div class="foam-field">
+                     <label style="width: 46%;color: black;font-weight: 800;">    KYC Proof*</label>
+                  </div>
+                  <div class="foam-field">
+                     <label>NIC*</label>
+                     <div class="vendorFile uploadFile1 uploadFile2" >
+                        {% render_field driver_form.NIC_front %}
+                        <p class="fileUploadtext" id="id_driver-NIC_front-p">
+                           <i class="far fa-file"></i> &ensp; Front Side
+                        </p>
+                     </div>
+                     <div class="vendorFile uploadFile1 uploadFile2" >
+                        {% render_field driver_form.NIC_rear %}
+                        <p class="fileUploadtext" id="id_driver-NIC_rear-p">
+                           <i class="far fa-file"></i> &ensp;Back side
+                        </p>
+                     </div>
+                  </div>
+                  <div class="errorSpace">{{ driver_form.NIC_front.errors }}</div>
+                  <div class="errorSpace">{{ driver_form.NIC_rear.errors }}</div>
+
+                 
+                  <div class="foam-field">
+                     <label>Driving Licence*</label>
+                     <div class="vendorFile uploadFile1 uploadFile2" >
+                        {% render_field driver_form.driving_licence_front %}
+                        <p class="fileUploadtext" id="id_driver-driving_licence_front-p">
+                           <i class="far fa-file"></i> &ensp; Front Side
+                        </p>
+                     </div>
+                     
+                  </div>
+                  <div class="errorSpace">{{ driver_form.driving_licence_front.errors }}</div>
+                  <div class="foam-field">
+                     <label>Valid From*</label>
+                     {%  render_field driver_form.driving_licence_valid_from id="datepicker2" data-date-format="yyyy-mm-dd" readonly='' %}
+                     <i class="dateIcon glyphicon glyphicon-calendar"></i>
+                     <!-- <input type="date" name="vendorName"> -->
+                  </div>
+                  <div class="errorSpace">{{ driver_form.driving_licence_valid_from.errors }}</div>
+                  <div class="foam-field">
+                     <label>Valid To*</label>
+                     {%  render_field driver_form.driving_licence_valid_till id="datepicker3" data-date-format="yyyy-mm-dd" readonly='' %}
+                     <i class="dateIcon glyphicon glyphicon-calendar"></i>
+                  </div>
+                  <div class="errorSpace">{{ driver_form.driving_licence_valid_till.errors }}</div>
+                  <div class="foam-field">
+                     <label>Total Driving Experience*</label>
+                     {% render_field driver_form.driving_experience %}
+                  </div>
+                  <div class="errorSpace">{{ driver_form.driving_experience.errors }}</div>
+                  
+                  <div class="foam-field">
+                     <label>Any Legal/Accidental case pending for clearance*</label>
+                     <select name="driver-legal_accidental_case" id="legalCase">
+                        <option Selected>--Select--</option>
+                        <option value=false>No</option>
+                        <option value=true id="Yes">Yes</option>
+                     </select>
+                  </div>
+                  <!-- //////if Yes is selected///////// -->
+                  <div style="display: none;" id="caseInput">
+                     <div class="foam-field">
+                        <label style="color: #e61616;">Upload any supporting document*</label>
+                        <div class="vendorFile">
+                           {%  render_field driver_form.legal_accidental_case_document %}
+                           <p class="fileUploadtext" id="id_driver-legal_accidental_case_document-p">
+                              <i class="far fa-file"></i> &ensp; Drop file here
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="errorSpace">{{ driver_form.legal_accidental_case_document.errors }}</div>
+               </div>
+               <div class="col-sm-5 adjustButton col-md-5 text-center" style="margin-top: 24px;">
+                  <div class="drag-drop">
+                     {% render_field driver_form.image class="input-file2" onchange="readURL1(this);" %}
+                     <img id="blah1" src="" alt="" />
+                     <p class="p24">
+                        <i style="margin-top: 10px;color: #e6e3e3;" class="fas fa-cloud-upload-alt fa-4x">
+                        </i><br> Drag&Drop files here <br> or<br>
+                        <button type="button" class="btn btn-outline-primary">Browse Files</button> 
+                     </p>
+                     <div class="label-right-allign" style="text-align: center;">
+                        Select your profile image<br>
+                        <p style="font-size: x-small;color: #e61616;font-style: italic;"> Size must be 200KB </p>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-12 booking-frm buttonallign ">
+                  <div style="display: flex;width:fit-content;">
+                     <button style="background-color: #7f7f7f;" id="backToCar" href="#carDetails" data-toggle="tab" class="book-btn" type="button">Back</button>&nbsp;&nbsp;
+                     <button class="book-btn" type="submit">Submit</button><br>
+                  </div>
+                  <br>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}
+{% block extra_scripts %}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+<script>
+   function new_setter(val){
+       }
+   $("#companyDetails").change(function(){
+       var selected = $("#companyDetails").children("option:selected").val();
+       // console.log(selected);
+       if( selected == "1"){
+           $("#yesDisplay").css({"display":"block"})
+       }
+       else if( selected == "0"){
+           $("#yesDisplay").css({"display":"none"})
+       }else{
+           $("#yesDisplay").css({"display":"none"})
+       }
+   })
+   
+   $("#legalCase").change(function(){
+       var selected = $("#legalCase").children("option:selected").val();
+       // console.log(selected);
+       if( selected == "true"){
+           $("#caseInput").css({"display":"block"})
+       }
+       else if( selected == "false"){
+           $("#caseInput").css({"display":"none"})
+       }else{
+           $("#caseInput").css({"display":"none"})
+       }
+   })
+   
+   function yes_func(){
+   }
+   $(document).ready(function(){
+       var d = new Date();
+       var current_year = d.getFullYear();
+        /////////////set age restrictions here////////////////////
+       var req_year = current_year - 18;
+       var month = d.getMonth();
+       var date = d.getDate();
+       var req_date = req_year + "/" + month + "/" + date ;
+       var today_date = current_year + "/" + month + "/" + date;
+   
+       $(function () {
+           $("#datepicker1").datepicker({ 
+               format: "yyyy-mm-dd",
+               autoclose: true, 
+               todayHighlight: false,
+               endDate: req_date
+           })
+       });
+       
+       $(function () {
+           $("#datepicker2").datepicker({ 
+               format: "yyyy-mm-dd",
+               autoclose: true, 
+               todayHighlight: false
+           })
+       });
+       $(function () {
+           $("#datepicker3").datepicker({ 
+               format: "yyyy-mm-dd",
+               autoclose: true, 
+               todayHighlight: false,
+               startDate: new Date(),
+           })
+       });
+       $(function () {
+           $("#datepicker4").datepicker({ 
+               format: "yyyy-mm-dd",
+               autoclose: true, 
+               todayHighlight: false,
+               endDate: req_date
+           })
+       });
+       $(function () {
+           $("#datepicker5").datepicker({ 
+               format: "yyyy-mm-dd",
+               autoclose: true, 
+               todayHighlight: false,
+               startDate: new Date(),
+           })
+       });
+       $(function () {
+           $("#datepicker6").datepicker({ 
+               format: "yyyy-mm-dd",
+               autoclose: true, 
+               todayHighlight: false,
+               startDate: new Date(),
+           })
+       });
+       $(function () {
+           $("#datepicker7").datepicker({ 
+               format: "yyyy-mm-dd",
+               autoclose: true, 
+               todayHighlight: false,
+               startDate: new Date(),
+           })
+       });
+   })
+</script>
+<script type="text/javascript">
+   $(function () {
+       // Function to return file name to the input field
+        $('input[type="file"]').change(function(e){
+               var fileName = e.target.files[0].name;
+               var id = e.target.id;
+               console.log(id);
+               var pfile = '#' + id + '-p';
+               $(pfile).text(fileName);
+               $(pfile).css("font-weight","600");
+       });
+   
+        $('.input-file').change(function (e) {
+               var fileName = e.target.files[0].name;
+             $('.p23').text(fileName);
+           });
+                $('.input-file2').change(function (e) {
+                   var fileName = e.target.files[0].name;
+             $('.p24').text(fileName);
+           }) ;
+   });
+    function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                    $('#blah').css("width","auto");
+                    $('#blah').css("height","inherit");
+                    $('#blah').css("border-radius","10px");
+                    $('.p23').css("height","auto");
+                    // $('.drag-drop')css("text-align","center");
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+         function readURL1(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah1').attr('src', e.target.result);
+                    $('#blah1').css("width","auto");
+                    $('#blah1').css("height","inherit");
+                    $('#blah1').css("border-radius","10px");
+                    $('.p24').css("height","auto");
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+   
+</script>
+<script type="text/javascript">
+   $("#navToCar").click(function() {
+       $("#vendorTb").removeClass("active");
+     $("#driverTb").removeClass("active");
+     $("#carTb").addClass("active");
+     // $("#check").valid();
+   //   if ($("#check1").valid()) {
+   //     this.setCustomValidity('This is my custom message.')
+   // } 
+   });
+   $("#backToVendor").click(function() {
+       $("#carTb").removeClass("active");
+     $("#driverTb").removeClass("active");
+     $("#vendorTb").addClass("active");
+   });
+   $("#navToDriver").click(function() {
+       $("#vendorTb").removeClass("active");
+     $("#carTb").removeClass("active");
+     $("#driverTb").addClass("active");
+   });
+   $("#backToCar").click(function() {
+       $("#vendorTb").removeClass("active");
+     $("#driverTb").removeClass("active");
+     $("#carTb").addClass("active");
+   });
+   
+   
+</script>
+<script language="JavaScript">
+   var frmvalidator  = new Validator("contactform");
+   frmvalidator.addValidation("name","req","Please provide your name");
+   frmvalidator.addValidation("email","req","Please provide your email");
+   frmvalidator.addValidation("email","email",
+     "Please enter a valid email address");
+</script>
+<script>
+   $(document).ready(function(){
+       $('input[type="checkbox"]').click(function(){
+           if($(this).prop("checked") == true){
+               autofillFunc();
+               $(".vendorMessage").show();
+           }
+           else if($(this).prop("checked") == false){
+               $(".vendorMessage").hide();
+               removeFill();
+               
+           }
+       });
+   });
+   function autofillFunc(){
+       var arrayCopy = [];
+       var i = 0;
+   
+   $("#vendorInformation > div").find("input").each(function(index){
+       i++;
+       if( i<=6 ){
+           
+           arrayCopy.push($(this).val());
+       }
+       
+               // console.log('Index: ' + index + ', html: ' + $(this).val());
+               
+   })
+   j=0;
+   $("#driverDetails > .col-sm-7").find("input").each(function(index){
+       if( j<= 5){
+           $(this).val(arrayCopy[j]) ;
+           $(this).attr('readonly', true);
+           j++
+       }
+       // console.log('Index: ' + index + ', html: ' + $(this).val());
+       
+   })
+   $("#id_driver-address").val($("#vendorInformation > div > div > textarea").val());
+   // console.log($("#vendorInformation > div > div > textarea").val());
+   // }
+   // console.log($("#id_driver-address").val());
+   }
+   
+</script>
+<script>
+   function removeFill(){
+       j=0;
+       $("#driverDetails > .col-sm-7").find("input").each(function(index){
+       if( j<= 5){
+           $(this).val("") ;
+           $(this).attr('readonly', false);
+           j++
+       }
+       $("#id_driver-address").val("");
+   })
+   }
+</script>
+<script type="text/javascript">
+   $("#vendorCheck").find("input").each(function(index){
+       $(this).change(function(){
+           $("#vendorCheck").find("input").each(function(index1){
+           var empty = false;
+           if ( $('#id_vendor-full_name').val() == '' ||          $("#id_vendor-pancard").val()=='' ||               $("#id_vendor-contact1").val()=='' ||              $("#id_vendor-address").val()=='' ||               $("#id_vendor-aadharcard_front").val()=='' ||      $("#id_vendor-aadharcard_rear").val()=='' ||       $("#id_bank-account_no").val()=='' ||              $("#id_bank-bank_name").val()=='' ||               $("#id_bank-ifsc").val()=='') 
+           {
+               empty = true;
+           };
+       if (empty) {
+           $('#navToCar').attr('disabled', true);
+       } else {
+           $('#navToCar').removeAttr('disabled',false);
+       }
+   })
+       })
+       
+   });
+   
+   
+   // function DemoFunc(){
+   //     var fileName = $("#id_vendor-pancard").val();
+   
+   //     if($("#id_vendor-pancard").val()=='') { // returns true if the string is not empty
+   //         console.log("file was selected");
+   //         console.log(fileName);
+   
+   //     } else { // no file was selected
+   //         console.log("no file selected");
+   //         console.log(fileName);
+   //     }
+   // }
+   
+   // $('#check').keyup(function() {
+   
+   //     var empty = false;
+   //     // $('#vendorCheck > input').foreach(index)(function) {
+   //         if ($('#check').val() == '') {
+   //             empty = true;
+   
+   //         };
+   //     // });
+   
+   //     if (empty) {
+   //         $('#navToCar').attr('disabled', true);
+   //     } else {
+   //         $('#navToCar').removeAttr('disabled',false);
+   //     }
+   // });
+   // Code for Car Details page button dissable and enable
+   $("#carDetails").find("input").each(function(index2){
+       $(this).change(function(){
+           $("#carDetails").find("input").each(function(index3){
+           var empty = false;
+           if ( $('#id_car-owner_name').val() == '' || $("#id_car-registration_no").val()=='' || $("#id_car-image_front").val()=='' || $("#id_car-image_rear").val()=='' ||              $("#id_car-rc_front").val()=='' ||      $("#id_car-rc_rear").val()=='' ||       $("#id_car-touristpermit_front").val()=='' ||              $("#id_car-touristpermit_rear").val()=='' ||               $("#id_car-permita_front").val()=='' || $("#id_car-permita_rear").val()==''
+               || $("#id_car-permitb_front").val()=='' || $("#id_car-permitb_rear").val()=='' || $("#id_car-insurance_front").val()=='' || $("#datepicker5").val()=='' || $("#datepicker6").val()=='' || $("#datepicker7").val()=='' ) {
+               empty = true;
+           };
+       if (empty) {
+           $('#navToDriver').attr('disabled', true);
+       } else {
+           $('#navToDriver').removeAttr('disabled',false);
+       }
+   })
+       })
+       
+   });
+   
+   
+</script>
+{% endblock extra_scripts %}

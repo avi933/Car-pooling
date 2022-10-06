@@ -1,0 +1,189 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block extra_stylesheet %}
+
+{% endblock extra_stylesheet %}
+
+
+
+{% block content %}
+
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="mb-0 font-size-18">Car Attribute Values Form</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Rides</a></li>
+                                <li class="breadcrumb-item active">Car Attribute Values Form</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+            <div class="col-9">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <h4 class="card-title"></h4>
+                            <p class="card-title-desc"></p>
+                            <form method="post" enctype="multipart/form-data">
+                           
+                                <div data-repeater-list="group-a" id="form_set">
+                                    
+                                    <div data-repeater-item="" class="row">
+                                        <div class="form-group col-lg-3">
+                                            <label for="name">Car Type</label>
+                                            
+                                        </div>
+                                        <div class="form-group col-lg-3">
+                                            <label for="name">Car Attribute</label>
+                                           
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="name">Value</label>
+                                            
+                                        </div>
+                                        
+                                    </div>
+
+                                    
+                                </div>
+{#                            <input data-repeater-create="" type="button" class="btn btn-warning mt-3 mt-lg-0" value="Add" id="add_more">#}
+                            <input type="submit" style="margin-left: 44%;" class="btn btn-success mt-3 mt-lg-0" value="Save">
+
+                            </form>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <form method="get">
+                                <h4 class="card-title">Filter By</h4>
+                                <p class="card-title-desc"></p>
+
+
+                                <div id="accordion">
+                                    <div class="card mb-1 shadow-none">
+                                        <div class="card-header" id="headingThree">
+                                            <h6 class="m-0">
+                                                <a href="#collapseThree" class="text-dark collapsed" data-toggle="collapse"
+                                                        aria-expanded="false"
+                                                        aria-controls="collapseThree">
+                                                   By Car Type
+                                                </a>
+                                            </h6>
+                                        </div>
+                                        <div id="collapseThree" class="collapse"
+                                                aria-labelledby="headingThree" data-parent="#accordion">
+                                                <div class="card-body">
+                                                    {% for car_type in car_types %}
+                                                        <div class="custom-control custom-checkbox mb-1">
+                                                            <input type="checkbox" class="custom-control-input" id="customCheck-{{ forloop.counter }}-a" name="car_types" value="{{ car_type.id }}" {% if car_type.id|stringformat:"i" in selected_car_types %}checked{% endif %}>
+                                                            <label class="custom-control-label" for="customCheck-{{ forloop.counter }}-a">{{ car_type.name }}</label>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="card mb-0 shadow-none">
+                                        <div class="card-header" id="headingFour">
+                                            <h6 class="m-0">
+                                                <a href="#collapseFour" class="text-dark collapsed" data-toggle="collapse"
+                                                        aria-expanded="false"
+                                                        aria-controls="collapseFour">
+                                                    By Attribute
+                                                </a>
+                                            </h6>
+                                        </div>
+                                        <div id="collapseFour" class="collapse"
+                                                aria-labelledby="headingFour" data-parent="#accordion">
+                                                <div class="card-body">
+                                                    {% for attribute in attributes %}
+                                                        <div class="custom-control custom-checkbox mb-1">
+                                                            <input type="checkbox" class="custom-control-input" id="customCheck-{{ forloop.counter }}-b" name="attributes" value="{{ attribute.id }}" {% if attribute.id|stringformat:"i" in selected_attributes %}checked{% endif %}>
+                                                            <label class="custom-control-label" for="customCheck-{{ forloop.counter }}-b">{{ attribute.name }}</label>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                        <button type="submit" style="display: flex;align-items: center;margin: auto;" class="btn btn-primary waves-effect waves-light mb-2">
+                                            <i class="bx bx-check-square font-size-16 mr-2 align-middle"></i> Apply
+                                        </button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                        {% comment %}
+                        <div class="col-12" style="margin: auto 0px; padding: 0px;">
+                            <div class="card">
+                                <div class="card-body" style="display: inline;margin: auto;">
+                                    <a href="">
+                                        <button type="button" style="background-color: #f1b44c; color: whitesmoke;" class="btn   waves-effect waves-light mb-2">
+                                            <i class="bx bx-down-arrow-alt font-size-16 mr-2 align-middle"></i> Import
+                                        </button>
+                                    </a>
+                                    <a href="">
+                                        <button type="button" style="background-color: #f1b44c; color: whitesmoke;" class="btn  waves-effect waves-light mb-2">
+                                            <i class="bx bx-up-arrow-alt font-size-16 mr-2 align-middle"></i> Export
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endcomment %}
+                </div>
+
+
+            </div>
+            <!-- end row -->
+
+            <!-- end row -->
+
+        </div> <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+
+
+</div>
+
+{% endblock content %}
+
+
+
+
+{% block extra_scripts %}
+<script>
+    $('#add_more').click(function() {
+        var form_idx = $('#id_form-TOTAL_FORMS').val();
+        console.log(form_idx);
+        $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+        $('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+    });
+
+    $( document ).ready(function() {
+        $( "input[name*='date']" ).datepicker({
+              dateFormat: 'yy-mm-dd',
+              minDate: 0,
+        });
+    });
+</script>
+{% endblock extra_scripts %}
