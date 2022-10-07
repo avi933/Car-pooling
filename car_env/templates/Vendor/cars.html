@@ -108,81 +108,6 @@
                                 <div class="errorSpace">{{ car_form.image_front.errors }}</div>
                                 <div class="errorSpace">{{ car_form.image_rear.errors }}</div>
 
-
-                                <div class="foam-field">
-                                    <label>Upload RC photo*</label>
-                                    <div class="vendorFile uploadFile1 uploadFile2" >
-                                       {% render_field car_form.rc_front %}<p class="fileUploadtext" id="id_car-rc_front-p">
-                                        <i class="far fa-file"></i> &ensp; Front Side</p>
-                                    </div>
-                                    <div class="vendorFile uploadFile1 uploadFile2" >
-                                        {% render_field car_form.rc_rear %}<p class="fileUploadtext" id="id_car-rc_rear-p">
-                                        <i class="far fa-file"></i> &ensp; Back side</p>
-                                    </div>
-                                </div>
-                                    <div class="errorSpace">{{ car_form.rc_front.errors }}</div>
-                                    <div class="errorSpace">{{ car_form.rc_rear.errors }}</div>
-
-                                <div class="foam-field">
-                                    <label>RC valid upto</label>
-                                    {% render_field car_form.rc_valid_upto id="datepicker5" data-date-format="mm-dd-yyyy" readonly='true' %}
-                                   <i class="dateIcon glyphicon glyphicon-calendar"></i>
-                                </div>
-                                <div class="errorSpace">{{ car_form.rc_valid_upto.errors }}</div>
-
-                                 <div class="foam-field ">
-                                    <label>Upload Tourists Permit*</label>
-                                    <div class="vendorFile uploadFile1 uploadFile2" >
-                                        {% render_field car_form.touristpermit_front %}
-                                        <p class="fileUploadtext" id="id_car-touristpermit_front-p">
-                                         <i class="far fa-file"></i> &ensp; Front Side
-                                        </p>
-                                     </div>
-                                     <div class="vendorFile uploadFile1 uploadFile2" >
-                                         {% render_field car_form.touristpermit_rear %}<p class="fileUploadtext" id="id_car-touristpermit_rear-p">
-                                         <i class="far fa-file"></i> &ensp; Back side</p>
-                                     </div>
-                                </div>
-                                    <div class="errorSpace">{{ car_form.touristpermit_front.errors }}</div>
-                                    <div class="errorSpace">{{ car_form.touristpermit_rear.errors }}</div>
-
-
-                                <div class="foam-field">
-                                <label>Tourist Permit valid upto</label>
-                                    {% render_field car_form.touristpermit_valid_upto id="datepicker6" data-date-format="mm-dd-yyyy" readonly='true' %}
-                                    <i class="dateIcon glyphicon glyphicon-calendar"></i>
-                                </div>
-                                    <div class="errorSpace">{{ car_form.touristpermit_valid_upto.errors }}</div>
-
-                                <div class="foam-field ">
-                                    <label>Upload Permit A*</label>
-                                    <div class="vendorFile uploadFile1 uploadFile2" >
-                                         {% render_field car_form.permita_front %}<p class="fileUploadtext" id="id_car-permita_front-p">
-                                         <i class="far fa-file"></i> &ensp; Front Side</p>
-                                     </div>
-                                     <div class="vendorFile uploadFile1 uploadFile2" >
-                                         {% render_field car_form.permita_rear %}<p class="fileUploadtext" id="id_car-permita_rear-p">
-                                         <i class="far fa-file"></i> &ensp; Back side</p>
-                                     </div>
-                                </div>
-                                    <div class="errorSpace">{{ car_form.permita_front.errors }}</div>
-                                    <div class="errorSpace">{{ car_form.permita_rear.errors }}</div>
-
-
-                                <div class="foam-field ">
-                                    <label>Upload Permit B*</label>
-                                    <div class="vendorFile uploadFile1 uploadFile2" >
-                                         {% render_field car_form.permitb_front %}<p class="fileUploadtext" id="id_car-permitb_front-p">
-                                         <i class="far fa-file"></i> &ensp; Front Side</p>
-                                    </div>
-                                    <div class="vendorFile uploadFile1 uploadFile2" >
-                                         {% render_field car_form.permitb_rear %}<p class="fileUploadtext" id="id_car-permitb_rear-p">
-                                         <i class="far fa-file"></i> &ensp; Back side</p>
-                                    </div>
-                                </div>
-                                    <div class="errorSpace">{{ car_form.permitb_front.errors }}</div>
-                                    <div class="errorSpace">{{ car_form.permitb_rear.errors }}</div>
-
                                 <div class="foam-field ">
                                     <label>Upload Insurance</label>
                                     <div class="vendorFile">
@@ -198,16 +123,6 @@
                                     <i class="dateIcon glyphicon glyphicon-calendar"></i>
                                 </div>
                                 <div class="errorSpace">{{ car_form.insurance_valid_upto.errors }}</div>
-
-                                <div class="foam-field ">
-                                    <label>Upload Pollution Certificate</label>
-                                    <div class="vendorFile">
-                                        {% render_field car_form.pollution_certificate %}<p class="fileUploadtext" id="id_car-pollution_certificate-p">
-                                        <i class="far fa-file"></i> &ensp; Drop file here</p>
-                                    </div>
-                                </div>
-                                    <div class="errorSpace">{{ car_form.pollution_certificate.errors }}</div>
-
                                     <div class="col-sm-12 booking-frm dashButton"> 
                                     <button class="book-btn" type="submit">Update
                                     </button>&nbsp;&nbsp;
@@ -232,15 +147,7 @@
                                  <input type="hidden" name="modelid" id="ridemodalvalue">
                                </div>
                                <div class="driver-modal-body" style="display: block;">
-                            
-                                <!-- <div class="col-sm-12" style="display: block;" > 
-                                    <p>HR 36 AA 4608 Details</p>
-                                    <p>Date Of Registration: 24-May-2020</p>
-                                </div> -->
-                            
-                                <!-- <div class="col-sm-12" style="height: 1px; background-color: #7f7f7f; margin-top: 10px">
 
-                                </div> -->
                                 <div class="col-sm-12 modalDivider">
                                     <h4>Front Pictures</h4>
                                 </div>
@@ -258,24 +165,7 @@
                                         <img style="width: 100%;" src="{{ car.rc_front.url }}" alt="">
                                     </div>
                                 {% endif %}
-                                    {% if car.touristpermit_front %}
-                                    <div class="col-sm-2">
-                                        <h5>Tourist Permit</h5>
-                                        <img style="width: 100%;" src="{{ car.touristpermit_front.url }}" alt="">
-                                    </div>
-                                {% endif %}
-                                    {% if car.permita_front %}
-                                    <div class="col-sm-2">
-                                        <h5>Permit A</h5>
-                                        <img style="width: 100%;" src="{{ car.permita_front.url }}" alt="">
-                                    </div>
-                                {% endif %}
-                                    {% if car.permitb_front %}
-                                    <div class="col-sm-2">
-                                        <h5>Permit B</h5>
-                                        <img style="width: 100%;" src="{{ car.permitb_front.url }}" alt="">
-                                    </div>
-                                {% endif %}
+                                   
                                     {% if car.insurance_front %}
                                     <div class="col-sm-2">
                                         <h5>Insurance</h5>
@@ -295,30 +185,7 @@
                                         <img style="width: 100%;" src="{{ car.image_rear.url }}" alt="">
                                     </div>
                                     {% endif %}
-                                    {% if car.rc_rear %}
-                                    <div class="col-sm-2">
-                                        <h5>RC</h5>
-                                        <img style="width: 100%;" src="{{ car.rc_rear.url }}" alt="">
-                                    </div>
-                                {% endif %}
-                                    {% if car.touristpermit_rear %}
-                                    <div class="col-sm-2">
-                                        <h5>Tourist Permit</h5>
-                                        <img style="width: 100%;" src="{{ car.touristpermit_rear.url }}" alt="">
-                                    </div>
-                                {% endif %}
-                                    {% if car.permita_rear %}
-                                    <div class="col-sm-2">
-                                        <h5>Permit A</h5>
-                                        <img style="width: 100%;" src="{{ car.permita_rear.url }}" alt="">
-                                    </div>
-                                {% endif %}
-                                    {% if car.permitb_rear %}
-                                    <div class="col-sm-2">
-                                        <h5>Permit B</h5>
-                                        <img style="width: 100%;" src="{{ car.permitb_rear.url }}" alt="">
-                                    </div>
-                                {% endif %}
+                                    
                                     {% if car.insurance_rear %}
                                     <div class="col-sm-2">
                                         <h5>Insurance</h5>
@@ -333,12 +200,7 @@
 
                                 <div class="col-sm-12">
 
-                                    {% if car.pollution_certificate %}
-                                    <div class="col-sm-2">
-                                        <h5>Pollution</h5>
-                                        <img style="width: 100%;" src="{{ car.pollution_certificate.url }}" alt="">
-                                    </div>
-                                    {% endif %}
+                                   
                                   </div>
                                </div>
                                <div class="modal-footer">

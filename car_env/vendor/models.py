@@ -84,32 +84,13 @@ class vendor_cars(models.Model):
     status = models.CharField(max_length=16 , choices=status_choices, default = "Pending")
 
     owner_name = models.CharField(max_length=256, blank=True, null=True)
-    father_name = models.CharField(max_length=256, blank=True, null=True)
-
     registration_no = models.CharField(max_length=50,blank=True, null=True)
     dateofregistration = models.DateField(blank=True, null=True)
+    image_front = models.ImageField(blank=True, null=True)
+    image_rear = models.ImageField(blank=True, null=True)
+    insurance_front = models.ImageField(blank=True, null=True)
+    insurance_valid_upto = models.DateField(blank=True, null=True)
 
-    image_front = models.ImageField()
-    image_rear = models.ImageField()
-
-    rc_front = models.ImageField()
-    rc_rear = models.ImageField()
-    rc_valid_upto = models.DateField()
-
-    touristpermit_front = models.ImageField()
-    touristpermit_rear = models.ImageField(blank=True, null=True)
-    touristpermit_valid_upto = models.DateField()
-
-    permita_front = models.ImageField()
-    permita_rear = models.ImageField(blank=True, null=True)
-
-    permitb_front = models.ImageField()
-    permitb_rear = models.ImageField(blank=True, null=True)
-
-    insurance_front = models.ImageField()
-    insurance_rear = models.ImageField(blank=True, null=True)
-    insurance_valid_upto = models.DateField()
-    pollution_certificate = models.ImageField(blank=True, null=True)
 
     def __str__(self):
         return str(self.car_type) + ": " + str(self.registration_no)
@@ -128,7 +109,6 @@ class driver(models.Model):
     vendor = models.ForeignKey(vendorprofile, on_delete=models.PROTECT)
     status = models.CharField(max_length=16 , choices=status_choices, default = "Pending")
     full_name = models.CharField(max_length=256)
-    father_name = models.CharField(max_length=100, blank=True, null=True)
     image = models.ImageField(null=True, blank=True)
     dob = models.DateField()
 
@@ -137,25 +117,15 @@ class driver(models.Model):
     contact2 = models.CharField(max_length=10, blank=True, null=True)
     address = models.TextField()
 
-    pancard_front = models.ImageField()
-    pancard_rear = models.ImageField()
+    NIC_front = models.ImageField()
+    NIC_rear = models.ImageField()
 
-    aadharcard_front = models.ImageField()
-    aadharcard_rear = models.ImageField()
-    votercard_front = models.ImageField(blank=True, null=True)
-    votercard_rear = models.ImageField(blank=True, null=True)
 
     driving_licence_front = models.ImageField(blank=True, null=True)
     driving_licence_rear = models.ImageField(blank=True, null=True)
     driving_licence_no = models.CharField(max_length=50, blank=True, null=True)
     driving_licence_valid_from = models.DateField()
-    driving_licence_valid_till = models.DateField()
 
-    driving_experience = models.PositiveSmallIntegerField()
-    hill_experience = models.PositiveSmallIntegerField()
-
-    police_verification_front = models.ImageField(blank=True, null=True)
-    police_verification_rear = models.ImageField(blank=True, null=True)
 
     legal_accidental_case = models.BooleanField(default=False)
     legal_accidental_case_details = models.TextField(blank=True, null=True)

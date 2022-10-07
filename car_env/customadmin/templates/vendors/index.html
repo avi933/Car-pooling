@@ -54,7 +54,7 @@
                                 <tr>
                                     <th></th>
                                     <th>Name</th>
-                                    <th>Father Name</th>
+                                    
                                     <th>Mobile</th>
                                     <th>Alternate Mobile</th>
                                     <th>Email</th>
@@ -71,7 +71,7 @@
                                 <tr>
                                     <td><input type="radio" name="vendors" value="vendor-{{ vendor.id }}" onclick="DisplayFunc(this)"></td>
                                     <td>{{ vendor.full_name }}</td>
-                                    <td>{{ vendor.father_name }}</td>
+                                    
                                     <td>{{ vendor.user.mobile }}</td>
                                     <td>{{ vendor.contact2 }}</td>
                                     <td>{{ vendor.email }}</td>
@@ -187,7 +187,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Full Name</th>
-                                    <th>Father Name</th>
+                                    
                                     <th>Mobile</th>
                                     <th>Email</th>
                                     <th>Status</th>
@@ -201,7 +201,7 @@
                                 <tr>
                                     <td>{{ forloop.counter }}</td>
                                     <td>{{ driver.full_name }}</td>
-                                    <td>{{ driver.father_name }}</td>
+                                    
                                     <td>{{ driver.contact1 }}</td>
                                     <td>{{ driver.email }}</td>
 
@@ -242,19 +242,7 @@
 
 
 {% block extra_scripts %}
-{#<script>#}
-{#    console.log("afajfb");#}
-{#    #}
-{##}
-{#    function DisplayFunc(ele){#}
-{#    console.log(ele);#}
-{#    $('.vendor-details').hide();#}
-{#    id = $(ele).val();#}
-{#    str = '#' + id;#}
-{#    $(str).show();#}
-{#}#}
-{##}
-{#</script>#}
+
 <script>
     $(document).ready(function(){
         $('input[type=radio]').change(function(){

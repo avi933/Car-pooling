@@ -149,13 +149,7 @@
                         {% for error in driver_form.full_name.errors %}
                         <div class="errorSpace"> {{ error}}</div>
                         {% endfor %}
-                        <div class="foam-field">
-                           <label>Father's Name</label>
-                           {% render_field driver_form.father_name %}
-                        </div>
-                        {% for error in driver_form.father_name.errors %}
-                        <div class="errorSpace"> {{ error}}</div>
-                        {% endfor %}
+                        
                         <div class="foam-field">
                            <label>Date Of Birth</label>
                            {% render_field driver_form.dob id="datepicker4" data-date-format="mm-dd-yyyy" readonly='true' %}
@@ -196,59 +190,23 @@
                            <label style="width: 46%;color: black;font-weight: 800;">    KYC Proof*</label>
                         </div>
                         <div class="foam-field">
-                           <label>PAN Card*</label>
+                           <label>NIC Card*</label>
                            <div class="vendorFile uploadFile2" >
-                              {% render_field driver_form.pancard_front %}
-                              <p class="fileUploadtext" id="id_driver-pancard_front-p">
+                              {% render_field driver_form.nic_front %}
+                              <p class="fileUploadtext" id="id_driver-nic_front-p">
                                  <i class="far fa-file"></i> &ensp; Front Side
                               </p>
                            </div>
                            <div class="vendorFile uploadFile2" >
-                              {% render_field driver_form.pancard_rear %}
-                              <p class="fileUploadtext" id="id_driver-pancard_rear-p">
+                              {% render_field driver_form.nic_card_rear %}
+                              <p class="fileUploadtext" id="id_driver-nic_rear-p">
                                  <i class="far fa-file"></i> &ensp; Back side
                               </p>
                            </div>
                         </div>
-                        <div class="errorSpace">{{ driver_form.pancard_front.errors }}</div>
-                        <div class="errorSpace">{{ driver_form.pancard_rear.errors }}</div>
-                        <div class="foam-field">
-                           <label>
-                              Aadhar Card*
-                              <p>Size must be 200KB</p>
-                           </label>
-                           <div class="vendorFile uploadFile2" >
-                              {% render_field driver_form.aadharcard_front %}
-                              <p class="fileUploadtext" id="id_driver-aadharcard_front-p">
-                                 <i class="far fa-file"></i> &ensp; Front Side
-                              </p>
-                           </div>
-                           <div class="vendorFile uploadFile2" >
-                              {% render_field driver_form.aadharcard_rear %}
-                              <p class="fileUploadtext" id="id_driver-aadharcard_rear-p">
-                                 <i class="far fa-file"></i> &ensp; Back side
-                              </p>
-                           </div>
-                        </div>
-                        <div class="errorSpace">{{ driver_form.aadharcard_front.errors }}</div>
-                        <div class="errorSpace">{{ driver_form.aadharcard_rear.errors }}</div>
-                        <div class="foam-field">
-                           <label>Voter Card</label>
-                           <div class="vendorFile uploadFile2" >
-                              {% render_field driver_form.votercard_front %}
-                              <p class="fileUploadtext" id="id_driver-votercard_front-p">
-                                 <i class="far fa-file"></i> &ensp; Front Side
-                              </p>
-                           </div>
-                           <div class="vendorFile uploadFile2" >
-                              {% render_field driver_form.votercard_rear %}
-                              <p class="fileUploadtext" id="id_driver-votercard_rear-p">
-                                 <i class="far fa-file"></i> &ensp; Back side
-                              </p>
-                           </div>
-                        </div>
-                        <div class="errorSpace">{{ driver_form.votercard_front.errors }}</div>
-                        <div class="errorSpace">{{ driver_form.votercard_rear.errors }}</div>
+                        <div class="errorSpace">{{ driver_form.nic_front.errors }}</div>
+                        <div class="errorSpace">{{ driver_form.nic_rear.errors }}</div>
+                        
                         <div class="foam-field">
                            <label>Driving Licence</label>
                            <div class="vendorFile uploadFile2" >
@@ -278,28 +236,7 @@
                            <i class="dateIcon glyphicon glyphicon-calendar"></i>
                         </div>
                         <div class="errorSpace">{{ driver_form.driving_licence_valid_till.errors }}</div>
-                        <div class="foam-field">
-                           <label>Total Driving Experience</label>
-                           {% render_field driver_form.driving_experience %}
-                        </div>
-                        <div class="errorSpace">{{ driver_form.driving_experience.errors }}</div>
-                        <div class="foam-field">
-                           <label>Hill Driving Experience</label>
-                           {% render_field driver_form.hill_experience %}
-                        </div>
-                        <div class="errorSpace">{{ driver_form.hill_experience.errors }}</div>
-                        <div class="foam-field">
-                           <label>
-                              Police Verification*
-                              <p>With in 15days or 6 months old</p>
-                           </label>
-                           <div class="vendorFile">
-                              {% render_field driver_form.police_verification_front %}
-                              <p class="fileUploadtext" id="id_driver-police_verification_front-p">
-                                 <i class="far fa-file"></i> &ensp; Drop file here
-                              </p>
-                           </div>
-                        </div>
+                        
                         <div class="errorSpace">{{ driver_form.police_verification_front.errors }}</div>
                         <div class="foam-field">
                            <label>Any Legal/Accidental case pending for clearance*</label>

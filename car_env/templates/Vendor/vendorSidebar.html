@@ -2,40 +2,40 @@
  
 <div class="col-md-3 " style="margin-top: 80px">
     <ul class="vendorTab">
-      <li {% if request.resolver_match.view_name == 'vendor:dashboard' %}class="active"{% endif %} >
+      <li {% if request.resolver_match.view_name = 'vendor:dashboard' %}class="active"{% endif %} >
         <a href="{% url 'vendor:dashboard' %}">
           <i><img src="{% static 'images/icons/Vendor-Profile-Active.png' %}" alt=""></i>&nbsp;&nbsp;Vendor Profile</a>
       </li>
-      <li {% if request.resolver_match.view_name == 'vendor:cars' %}class="active"{% endif %}>
+      <li {% if request.resolver_match.view_name = 'vendor:cars' %}class="active"{% endif %}>
         <a href="{% url 'vendor:cars' %}">
           <i><img src="{% static 'images/icons/Car-details--Active.png' %}" alt=""></i>&nbsp;Car Details</a>
       </li>
-      <li {% if request.resolver_match.view_name == 'vendor:drivers' %}class="active"{% endif %}>
+      <li {% if request.resolver_match.view_name = 'vendor:drivers' %}class="active"{% endif %}>
         <a href="{% url 'vendor:drivers' %}">
           <i><img src="{% static 'images/icons/Driver--Active.png' %}" alt=""></i>&nbsp;&nbsp;&nbsp;Driver Details
         </a>
       </li>
-      <li {% if request.resolver_match.view_name == 'vendor:bookings' %}class="active"{% endif %}>
+      <li {% if request.resolver_match.view_name = 'vendor:bookings' %}class="active"{% endif %}>
         <a href="{% url 'vendor:bookings' %}">
           <i><img src="{% static 'images/icons/Assignment-Active.png' %}" alt=""></i>&nbsp;&nbsp;Your Booking
         </a>
       </li>
-      <li {% if request.resolver_match.view_name == 'vendor:assignments' %}class="active"{% endif %}>
+      <li {% if request.resolver_match.view_name = 'vendor:assignments' %}class="active"{% endif %}>
         <a href="{% url 'vendor:assignments' %}">
           <i><img src="{% static 'images/icons/Assignments-Active.png' %}" alt=""></i>&nbsp;&nbsp;Assignments
         </a>
       </li>
-      <li {% if request.resolver_match.view_name == 'vendor:booking_detail' %}class="active"{% endif %}>
+      <li {% if request.resolver_match.view_name ='vendor:booking_detail' %}class="active"{% endif %}>
         <a href="{% url 'vendor:booking_detail' %}">
           <i><img src="{% static 'images/icons/Ride-details-active.png' %}" alt=""></i>&nbsp;&nbsp;Ride Details
         </a>
       </li>
-      <li {% if request.resolver_match.view_name == 'vendor:booking_history' %}class="active"{% endif %} >
+      <li {% if request.resolver_match.view_name = 'vendor:booking_history' %}class="active"{% endif %} >
         <a href="{% url 'vendor:booking_history' %}">
           <i><img src="{% static 'images/icons/History-Active.png' %}" alt=""></i>&nbsp;&nbsp;Booking History
         </a>
       </li>
-      <li {% if request.resolver_match.view_name == 'vendor:payments' %}class="active"{% endif %} >
+      <li {% if request.resolver_match.view_name = 'vendor:payments' %}class="active"{% endif %} >
         <a href="{% url 'vendor:payments' %}">
           <i><img src="{% static 'images/icons/Payment-Active.png' %}" alt=""></i>&nbsp;&nbsp;Payments
         </a>

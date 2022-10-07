@@ -669,10 +669,7 @@
        $("#vendorTb").removeClass("active");
      $("#driverTb").removeClass("active");
      $("#carTb").addClass("active");
-     // $("#check").valid();
-   //   if ($("#check1").valid()) {
-   //     this.setCustomValidity('This is my custom message.')
-   // } 
+
    });
    $("#backToVendor").click(function() {
        $("#carTb").removeClass("active");
@@ -723,8 +720,7 @@
            
            arrayCopy.push($(this).val());
        }
-       
-               // console.log('Index: ' + index + ', html: ' + $(this).val());
+
                
    })
    j=0;
@@ -734,13 +730,10 @@
            $(this).attr('readonly', true);
            j++
        }
-       // console.log('Index: ' + index + ', html: ' + $(this).val());
        
    })
    $("#id_driver-address").val($("#vendorInformation > div > div > textarea").val());
-   // console.log($("#vendorInformation > div > div > textarea").val());
-   // }
-   // console.log($("#id_driver-address").val());
+ 
    }
    
 </script>
@@ -776,36 +769,6 @@
        
    });
    
-   
-   // function DemoFunc(){
-   //     var fileName = $("#id_vendor-pancard").val();
-   
-   //     if($("#id_vendor-pancard").val()=='') { // returns true if the string is not empty
-   //         console.log("file was selected");
-   //         console.log(fileName);
-   
-   //     } else { // no file was selected
-   //         console.log("no file selected");
-   //         console.log(fileName);
-   //     }
-   // }
-   
-   // $('#check').keyup(function() {
-   
-   //     var empty = false;
-   //     // $('#vendorCheck > input').foreach(index)(function) {
-   //         if ($('#check').val() == '') {
-   //             empty = true;
-   
-   //         };
-   //     // });
-   
-   //     if (empty) {
-   //         $('#navToCar').attr('disabled', true);
-   //     } else {
-   //         $('#navToCar').removeAttr('disabled',false);
-   //     }
-   // });
    // Code for Car Details page button dissable and enable
    $("#carDetails").find("input").each(function(index2){
        $(this).change(function(){
