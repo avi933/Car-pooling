@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse, render_to_response
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
@@ -905,10 +906,6 @@ def PaymentView(request):
     pickup_city = models.city.objects.get(name=pickup_city)
     drop_city = models.city.objects.get(name=drop_city)
 
-    # print(name, mobile, ride_type_qs, car_type_qs, pickup_city, drop_city, pickup,drop, distance, duration, price_km)
-    # print(datetime.datetime.now(), pickup_datetime, drop_datetime, pickup_location, drop_location)
-    # print(initial_charges, additional_charges, early_pickup_charges, late_drop_charges, night_charges, gst_charges, ride_total, final_ride_fair)
-    # print(coupon_qs, advance)
     booking = models.ride_booking.objects.create(
         user = request.user,
         name = name,
@@ -1067,3 +1064,22 @@ def populate_data(request):
                                                                                      attr=attr, value=attr.value)
                                     new.save()
     return HttpResponse('Done')
+
+
+
+
+# ///////////////////////////////////////////
+from .models import BookingNow
+@csrf_exempt
+def booking_view(request):
+    if  request.user.is_authenticated:
+        y = json.loads(request.body)
+        print("distance is " + y['Distance'])
+        obj = BookingNow(pick_up=y['pick_up'],drop_off=y['drop_off'],distance=y['Distance'],
+        price=y["Price"],name_of_person = request.user)
+        obj.save()
+        return JsonResponse({'result':'loged in'})
+       
+    else:
+        return JsonResponse("{'result':'not loged in'}")
+    

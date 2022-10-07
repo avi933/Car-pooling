@@ -35,4 +35,6 @@ urlpatterns = [
     path('payment/', views.PaymentView, name='payment'),
     path('payu/success', views.payu_success, name='payu_success'),
     path('payu/failure', views.payu_failure, name='payu_failure'),
+
+    path('api/booking',views.booking_view, name='booknow'),
 ]

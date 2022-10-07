@@ -1,3 +1,5 @@
+from contextvars import Context
+from certifi import *
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
@@ -474,3 +476,5 @@ def VendorBookingBidView(request):
         bid_qs, created = coremodels.vendorbids.objects.get_or_create(vendor=vendor, booking=booking, bid=bid)
         bid_qs.save()
         return JsonResponse({"status": "success"}, status=200)
+
+

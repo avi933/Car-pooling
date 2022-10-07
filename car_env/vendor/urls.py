@@ -18,6 +18,7 @@ urlpatterns = [
 
     path('bookings/', views.BookingsView, name='bookings'),
     path('booking-bid/', views.VendorBookingBidView, name='booking_vendor_bid'),
+    
 
     path('assignments/', views.AssignmentsView, name='assignments'),
     path('assign-car-driver/<int:id>/', views.AssignCarDriverView, name='assign_car_driver'),

@@ -452,3 +452,11 @@ class user_referral(models.Model):
 
     class Meta:
         verbose_name_plural = 'User Referral Codes'
+
+
+class BookingNow(models.Model):
+    pick_up = models.CharField(max_length = 50)
+    drop_off = models.CharField(max_length=50)
+    distance = models.CharField (max_length=5)
+    price = models.CharField(max_length=7)
+    name_of_person = models.ForeignKey(User,on_delete=models.CASCADE) 

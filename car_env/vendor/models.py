@@ -1,6 +1,12 @@
+from statistics import mode
 from django.db import models
 
 # Create your models here.
+
+    
+
+
+
 vendor_status_choices = (
     ('Approved', 'Approved'),
     ('Rejected', 'Rejected'),
@@ -52,6 +58,8 @@ account_type_choices = (
     ('C', 'Current'),
     ('S', 'Saving'),
 )
+
+
 class bank_detail(models.Model):
     vendor = models.ForeignKey('vendor.vendorprofile', on_delete=models.PROTECT)
     account_holder_name = models.CharField(max_length=50, blank=True, null=True)
