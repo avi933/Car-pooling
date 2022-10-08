@@ -815,6 +815,7 @@ crossorigin=""></script>
       let url = 'api/booking';
       let data = {'pick_up': pick_up_point.value, 'drop_off': drop_off_cordi.value, 'Distance': distance_text.value,
                   'Price': price_text.value  };
+      
 
       let res = await fetch(url, {
          method: 'POST',
@@ -826,9 +827,12 @@ crossorigin=""></script>
 
    if (res.ok) {
     let ret = await res.json();
+    alert("BOOKING Confirmed");
     return ret;
+    
    } 
    else {
+      alert("Please login first ")
     return `HTTP error: ${res.status}`;
    }
    }

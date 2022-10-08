@@ -1,37 +1,37 @@
-autopep8==1.4.4
-Babel==2.9.0 #done
-boto3==1.10.49 #done
-botocore==1.13.50 #done
-certifi==2019.3.9 #done
-cffi==1.14.4 #nt
-chardet==3.0.4 #done
-cryptography==3.3.1 #done
-defusedxml==0.6.0 #done
-diff-match-patch==20200713 #done
-dj-database-url==0.5.0 #done
-Django==2.2 #done
-django-allauth==0.39.1 #done
-django-countries==5.3.3 #done
-django-crispy-forms==1.7.2 #done
-django-debug-toolbar==1.10.1 #done
-django-filter==2.2.0 #done
-django-fullurl==1.1 #done
+autopep8==1.4.4 #done 
+Babel==2.9.0 #done 2
+boto3==1.10.49 #done 2
+botocore==1.13.50 #done 2
+certifi==2019.3.9 #done 2 
+cffi==1.14.4 #nt 2
+chardet==3.0.4 #done 2 
+cryptography==3.3.1 #done 2 
+defusedxml==0.6.0 #done 2 
+diff-match-patch==20200713 #done2
+dj-database-url==0.5.0 #done2
+Django==2.2 #done2
+django-allauth==0.39.1 #done2
+django-countries==5.3.3 #done2
+django-crispy-forms==1.7.2 #done2
+django-debug-toolbar==1.10.1 #done2
+django-filter==2.2.0 #done2
+django-fullurl==1.1 #done2
 django-heroku==0.3.1 #done -- here -- 
-django-import-export==2.5.0 #done
-django-model-utils==3.2.0 #done
-django-mssql==1.8 #done
-django-phone-field==1.8.0 #done
-django-phonenumber-field==4.0.0 #done
-django-storages==1.8 #done
-django-stubs==1.4.0 #not applied
-django-widget-tweaks==1.4.8 #done
-djangorestframework==3.11.0 #done
-djangorestframework-stubs==1.1.0 #done
-docutils==0.15.2 #done
-et-xmlfile==1.0.1 #done
-gunicorn==20.0.4 #done
-idna==2.8 #done
-jdcal==1.4.1 #done
+django-import-export==2.5.0 #done2
+django-model-utils==3.2.0 #done2
+django-mssql==1.8 #done2
+django-phone-field==1.8.0 #done2
+django-phonenumber-field==4.0.0 #done2
+django-storages==1.8 #done2
+django-stubs==1.4.0 #not applied2
+django-widget-tweaks==1.4.8 #done2
+djangorestframework==3.11.0 #done 2
+djangorestframework-stubs==1.1.0 #done2
+docutils==0.15.2 #done2
+et-xmlfile==1.0.1 #done2
+gunicorn==20.0.4 #done2
+idna==2.8 #done2
+jdcal==1.4.1 #done2
 Jinja2==2.10.3 #done
 jmespath==0.10.0 #done
 MarkupPy==1.14 #done
@@ -61,7 +61,7 @@ stripe==2.27.0 #done
 tablib==3.0.0 #done
 typed-ast==1.4.2 #nt
 typing-extensions==3.7.4.3 #done
-urllib3==1.24.2 #done
+urllib3==1.24.2 #done2
 whitenoise==5.2.0 #done
 xlrd==2.0.1 #done
 xlwt==1.3.0 #done
